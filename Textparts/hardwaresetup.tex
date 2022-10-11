@@ -1,0 +1,284 @@
+Die Konstruktion der Hardware ist in den folgenden Kapitlen auf drei Überkategorien 
+an Arbeitsschritten aufgeteilt, welche in chronologischer Reihenfolge auszuführen sind. 
+Innerhalb der Kategorien ist der Ablauf nicht notwendigerweise streng einzuhalten, 
+allerdings ist empfohlen, logisch zu denken, bevor gehandelt wird.
+
+\subsection{Druck der Komponenten}
+\label{ssec:print}
+Bevor mit dem Aufbau begonnen werden kann, müssen die entsprechenden Komponenten 3D-gedruckt 
+werden. Dazu wird ein SLA-Drucker empfohlen, aus Gründen, die in Kapitel \ref{ssec:Print} genannt wurden. 
+Da keine Experimente mit FDM-Druckern durchgeführt wurden, ist nicht garantiert, dass damit nutzbare 
+Komponenten produziert werden können.
+Bei Details zu den Modellen wird auf Kapitel \ref{ssec:Models} verwiesen.
+\\
+Die STL-Dateien stehen auf dem folgend verlinkten GitHub zur Verfügung:
+
+\url{https://github.com/psykovski-extended/binobo_models.git}
+\\\\
+Da es viele verschiedene Drucker und damit verbundene Software gibt, sind diese Files selbst zu 
+slicen. Tabelle \ref{tab:comp} gibt unbedingt notwendige Komponenten und deren Stückzahl an:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+        Name&Stückzahl\\
+        \hline
+        \hline
+        controller$\_$poti$\_$holder&6\\
+        \hline
+        controller$\_$poti$\_$holder$\_$th&1\\
+        \hline
+        controller$\_$poti$\_$holder$\_$p&1\\
+        \hline
+        controller$\_$poti$\_$holder$\_$p$\_$cut&1\\
+        \hline
+        controller$\_$poti$\_$fingertip&3\\
+        \hline
+        controller$\_$poti$\_$fingertip$\_$th&1\\
+        \hline
+        controller$\_$poti$\_$fingertip$\_$p&1\\
+        \hline
+        controller$\_$poti$\_$thumb$\_$base&1\\
+        \hline
+        controller$\_$plate$\_$inner&1\\
+        \hline
+        controller$\_$plate$\_$thumb&1\\
+        \hline
+        controller$\_$plate$\_$outer&1\\
+        \hline
+        controller$\_$strut$\_$lr M&4\\
+        \hline
+        controller$\_$strut$\_$lr S&1\\
+        \hline
+    \end{tabular}
+    \caption{Liste erforderlicher Komponenten}
+    \label{tab:comp}
+\end{table}
+
+Die Größe der benötigten Hebel und Streben ist abhängig von der ungefähren Größe der Hand. Weil 
+jeder Mensch anders ist, kann nicht mit 100\% Genauigkeit angegeben werden, welche dieser Teile 
+für die entsprechende Hand passen. Daher sind hier nur die Maße des Prototypen angegeben. Bei 
+der Montage ist es möglicherweise erforderlich weitere Streben und Hebel nachzudrucken, wenn andere 
+Maße notwendig sind.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+        Name&Stückzahl\\
+        \hline
+        \hline
+        controller$\_$strut L&1\\
+        \hline
+        controller$\_$strut M&2\\
+        \hline
+        controller$\_$strut S&7\\
+        \hline
+        controller$\_$strut XS&5\\
+        \hline
+        \hline
+        controller$\_$lever L&5\\
+        \hline
+        controller$\_$lever M&9\\
+        \hline
+        controller$\_$lever S&1\\
+        \hline
+    \end{tabular}
+    \caption{Liste varabel erforderlicher Komponenten}
+    \label{tab:}
+\end{table}
+
+Die Hebel (\texttt{controller$\_$lever}) sind als Paare angegeben, da in den entsprechenden 
+Dateien auch beide Komponenten inkludiert sind.
+\\\\
+Anzumerken ist, dass die Teile für eine geringe Druckzeit optimiert sind und daher größtenteils 
+ohne Stützkonstruktion zu drucken sind. Dabei ist die Orientierung aus den STL-Files zu übernehmen.
+Die Halterungen am Fingerrücken stellen eine Ausnahme dar, da diese eine Lasche zur Befestigung des nächsten 
+Moduls aufweisen, welche nicht ohne Stützen erfolgreich gedrückt werden kann.
+
+Somit müssen bei diesen Elementen folgende oder vergleichbare Stützstrukturen hinzugefügt werden:
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \includegraphics [angle=0, width=0.8\textwidth]{Images/supports}
+        \caption{Konfiguration der Stützen bei controller$\_$poti$\_$holder}
+        \label{fig:supports}
+    \end{figure}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+In Abbildung \ref{fig:supports} wird das empfohlene Stützmuster anhand der Komponente controller$\_$poti$\_$holder 
+dargestellt. Bei allen ähnlichen Modellen mit diesen Laschen müssen Stützen nach diesem Vorbild nachgerüstet werden.
+
+Je nach Druckereigenschaften ist es notwendig den Überhang bei den Fingerspitzen ebenfalls zu stützen.
+\end{minipage}
+
+Sobald die Komponenten ausgedruckt sind, kann mit deren Montage begonnen werden.
+
+\subsection{Montage der Komponenten}
+\label{ssec:mounting}
+Es wird empfohlen, die Konstruktion zu zweit durchzuführen, da Nähen in Nähe der eigenen primären Hand alleine 
+kompliziert ist.
+
+Die Montage der Potentiometer verläuft leichter, wenn sie vor der Befestigung am Handschuh erfolgt, daher ist empfohlen, damit zu beginnen.
+Am einfachsten verläuft dies, wenn man dieser Bewegung folgt:
+
+\begin{minipage}{0.5\textwidth}
+\begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/poti_1.png}
+    \caption{Montage: Schritt 1}
+    \label{fig:step1}
+\end{figure}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \includegraphics [angle=0, width=0.8\textwidth]{Images/poti_2.png}
+        \caption{Montage: Schritt 2}
+        \label{fig:step2}
+    \end{figure}
+\end{minipage}
+
+Bei der Montage ist etwas Kraft von Nöten, da die Potentiometer nur durch die unterdimensionierte Lücke in der Halterung fixiert werden. 
+Es ist auch darauf zu achten, die Potentiometer richtig herum zu implementieren, sodass sie in die Aussparungen an der Strebe passen. 
+Auf der Daumenbasisplatte ist das Potentiometer ebenfalls nach diesem System anzustecken.
+Beim unteren Daumengelenk, \texttt{controller$\_$poti$\_$thumb$\_$base}, muss der Widerstand seitwärts auf eine ähnliche weise in die Passform gepresst werden.
+\\\\
+Die Potentiometer, die an der Basis der normalen Finger liegen müssen erst mit den entsprechenden \texttt{controller$\_$strut$\_$lr}-Varianten 
+beaufschlagt werden, bevor sie in ihre Position geschoben werden, da erst durch diese Komponente die erforderliche Höhe erreicht wird, 
+um den Teil zu stabilisieren.
+
+Am unteren Daumengelenk muss ebenfalls ein \texttt{controller$\_$strut$\_$lr M}-Element aufgesteckt werden.
+\\\\
+Nun wird es Zeit für den ersten komplexeren Arbeitsschritt: Das Annähen der Elemente.
+Es wird empfohlen, einen flexiblen, engen Handschuh zu nutzen, da es ansonsten zum Abheben der Komponenten von der Hand kommen kann.
+\\
+Die Platzierung der Komponenten ist zum Teil nutzerabhängig, allerdings ist die Reihenfolge fix vorgegeben. 
+Diese ist in folgender Grafik, Abbildung \ref{fig:scheme}, gegeben:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/scheme.png}
+    \caption{Anordnungsschema auf dem Handschuh}
+    \label{fig:scheme}
+\end{figure}
+
+Alle Halterungen sollten möglichst mittig auf den unterliegenden Fingerknochen liegen und lotrecht nach oben stehen. Empfohlen ist, 
+die Halterungen an den Fingern zuerst zu befestigen, bevor die Platten und \texttt{controller$\_$poti$\_$thumb$\_$base} montiert werden, 
+da deren genaue Position und Orientierung von ihnen abhängig sind. 
+
+Nachdem die Teile angenäht und angeschraubt wurden, müssen die beiden großen Platten mit den Multiplexer-Boards beaufschlagt werden. dazu werden sie, 
+nach einer Mutter, die als Abstandhalter dient, mit den Löchern auf die beiden handinneren Schrauben gesteckt und mit einer weiteren Mutter befestigt.
+\\\\
+Als letzter Schritt dieser Etappe müssen passende Hebel- und Strebenlängen gewählt werden. Man erkennt die korrekte Längenkombination daran, dass beim 
+Abbiegen des Fingers kaum spürbarer Widerstand beim Erreichen des vollen Winkels spürbar ist und die am Potentiometer verfügbaren 90° voll ausgekostet 
+werden. Hierbei kann es erforderlich sein weitere Komponenten zu drucken. Auch wichtig anzumerken ist, dass die dickeren Bottom-Layers, die beim SLA-Druck 
+auftreten an Löchern manchmal aufgestochen oder aufgeritzt werden müssen. Weiters ist wichtig, dass die Hebel, besonders die, die in das Potentiometer 
+greifen, vollständig ausgehärtet sind, bevor sie verbaut werden, da es andernfalls zu Abrieb und Verschleiß kommen kann. 
+
+
+\subsection{Verlöten der Elektronik}
+\label{ssec:soldering}
+
+Zuletzt müssen die Verbindungen zwischen den Widertständen und den Multiplexern gelötet werden. Dazu werden hochflexible Drähte empfohlen, beispielsweise 
+\textit{Flexivolt 0.25mm}-Drähte, wie sie im Prototypen genutzt werden. Tabelle \ref{tab:circuit} gibt an, wie die Läuferkontakte der Potentiometer in jedem Segment zu verschalten sind:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Segment&Kontakt\\
+        \hline
+        \hline
+        &Multiplexer 1\\
+        \hline
+        Daumen auf Platte&S0\\
+        \hline
+        Daumen Links/Rechts&S1\\
+        \hline
+        Daumen Mitte&S2\\
+        \hline
+        Daumenspitze&S3\\
+        \hline
+        Zeigefinger Links/Rechts&S4\\
+        \hline
+        Zeigefinger unten&S5\\
+        \hline
+        Zeigefinger Mitte&S6\\
+        \hline
+        Zeigefingerspitze&S7\\
+        \hline
+        Mittelfinger Links/Rechts&S8\\
+        \hline
+        Mittelfinger unten&S9\\
+        \hline
+        Mittelfinger MItte&S10\\
+        \hline
+        Mittelfingerspitze&S11\\
+        \hline
+        \hline
+        &Multiplexer 2\\
+        \hline
+        Ringfinger Links/Rechts&S0\\
+        \hline
+        Ringfinger unten&S1\\
+        \hline
+        Ringfinger Mitte&S2\\
+        \hline
+        Ringfingerspitze&S3\\
+        \hline
+        Kleiner Finger Links/Rechts&S4\\
+        \hline
+        Kleiner Finger unten&S5\\
+        \hline
+        Kleiner Finger Mitte&S6\\
+        \hline
+        Kleiner Finger Spitze&S7\\
+        \hline
+    \end{tabular}
+    \caption{Verschaltungstabelle der Läuferkontakte}
+    \label{tab:circuit}
+\end{table}
+
+Die anderen Kontakte der Potentiometer müssen mit 5V bzw GND beaufschlagt werden, sodass ein Spannungsteiler 
+entsteht, um die Rotation zu messen. Obwohl die Polung technisch irrelevant ist, 
+müssen die Widerstände richtig gepolt sein, um Vorzeichenfehler und falsche Messungen zu vermeiden. Das Programm 
+gibt vor, dass immer der obere Kontakt des Potentiometers auf 5V angeschlossen ist, der übrige auf GND.
+Bei den liegenden Potentiometern wird das selbe, nur gedreht angenommen, also links GND und rechts 5V. 
+Da an dieser Stelle zweimal je 25 Drähte miteinander verbunden werden müssen, ist eine Form von Spannungsschiene 
+stark zu empfehlen. Beim Prototypen wurden zwei Stücke einer querverbundenen Lochrasterplatte genutzt, auf der 
+alle Verbindungen der entsprechenden Spannung zusammengeführt wurden. Die Anschlüsse für den ESP32 dürfen nicht vergessen werden. 
+Beim Prototypen wurden Jumper-Wires genutzt, um den $\mu$C schnell austauschen zu können, doch bei einem permanenten 
+Projekt können diese Verbindungen auch gelötet werden.
+\\\\
+Auch die Multiplexer benötigten Spannung, daher müssen sie ebenfalls an der Spannungsschiene angeschlossen werden.
+der EN-Pin ist auf GND zu ziehen, da dieser einen negierten Enable-Pin darstellt, somit ist der Chip permanent aktiv, wenn 
+auf EN 0V anliegen.
+\\\\
+Die restlichen Pins des Multiplexers müssen wie in Tabelle \ref{tab:multiESP} folgt mit dem ESP32 verbunden werden:
+
+\input{Textparts/Tabellen/esp32_pins_multiplexer.tex}
+
+Bevor der Controller in Betrieb genommen wird, sollte mit einem Ohmmeter der Widerstand zwischen den 5V und GND-Leitungen gemessen werden. 
+Er sollte sich mindestens im zweistelligen Kiloohm-Bereich befinden, ansonsten fällt der ESP32 in einen Reset-Loop durch den Kurzschluss 
+an der Versorgungsspannung.
+\\\\
+Somit muss der $\mu$C nur noch mit der entsprechenden Software beaufschlagt werden und mit einem Handy und der Binobo-App verbunden werden, 
+um den Controller in Betrieb zu nehmen.
+\pagebreak
+Zuletzt folgen noch zwei Bilder des vollständigen Controllers, Abbildung \ref{fig:mt} und \ref{fig:gauntlet}.
+\begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.59\textwidth]{Images/Hand_leer.png}
+    \caption{Leerer, vollständiger Handschuh}
+    \label{fig:mt}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.59\textwidth]{Images/Hand.png}
+    \caption{Angezogener Handschuh}
+    \label{fig:gauntlet}
+\end{figure}

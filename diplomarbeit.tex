@@ -1,0 +1,3330 @@
+  %% diplomarbeit.tex
+  %% Copyright 2015 Simon M. Laube
+  %
+  % This work may be distributed and/or modified under the
+  % conditions of the LaTeX Project Public License, either version 1.3
+  % of this license or (at your option) any later version.
+  % The latest version of this license is in
+  %   http://www.latex-project.org/lppl.txt
+  % and version 1.3 or later is part of all distributions of LaTeX
+  % version 2005/12/01 or later.
+  %
+  % This work has the LPPL maintenance status `author maintained'.
+  % 
+  % The Current Maintainer of this work is S. M. Laube
+  % 
+  % This work consists of the files listed in ./Help/files.txt
+
+%%=====================================================%%
+%% Neues Diplomarbeitstemplate der ET	   			   %%
+%% Abteilung ab 2013/2014				   			   %%
+%% Erstellt von Simon Michael Laube		   			   %%
+%% Betreut von  Prof. Mag. Dipl.-Ing. Dr. Daniel Asch  %%
+%%			    Prof. Dipl.-Ing. Dr. Wilhelm Haager	   %%
+%%=====================================================%%
+%% Dokumentklasse KOMA-Script Report
+
+%% benötigt, da scrpage2 seit KOMA-Script 3.3 (April 2020) als veraltet gilt
+%% Philipp Eilmsteiner 17.09.2020
+\RequirePackage{scrlfile}
+\ReplacePackage{scrpage2}{scrlayer-scrpage}
+
+\documentclass[paper=a4,12pt]{scrreprt}
+% Encoding UTF8
+\usepackage[utf8]{inputenc}
+% 8 Bit Aufloesung der Buchstaben
+\usepackage[T1]{fontenc}
+% Seitenraender
+\usepackage[scale=0.72]{geometry}
+% Spracheinstellungen
+\usepackage[english, naustrian]{babel} % your native language must be the last one!!
+% erweiterte Farbenpalette
+\usepackage[dvipsnames]{xcolor}
+% Abbildungen
+\usepackage{graphicx}
+% Tabellen (erweitert)
+\usepackage{tabularx}
+% TikZ + Circuit-TikZ (fuer Schaltungen)									
+\usepackage[europeanresistors,							
+ 		europeaninductors]{circuitikz}
+% Nuetzliche TikZ Libraries
+\usetikzlibrary{arrows,automata,positioning}
+% Mathematikpakete!
+\usepackage{amsmath,amssymb}							
+%\usepackage{mathtools}	
+% PDF Einbindung (zB Datenblaetter)
+\usepackage{pdfpages}
+% Source Code Einbindung, Setup siehe:
+% http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings									
+\usepackage{listings,scrhack} %scrhack vermeidet Umschaltung auf KOMA Floats..			
+			
+\usepackage{eurosym}
+\usepackage{lscape}
+% Diplomarbeitsspezifisches Package etdipa
+\usepackage{etdipa}
+
+%% Abkuerzungsverzeichnis
+\usepackage[]{acronym}
+
+%% Todos
+\usepackage[]{todonotes}
+
+%% Ganttdiagramme
+\usepackage{pgfgantt}
+
+%% Subfigures
+\usepackage[lofdepth]{subfig}
+
+%% HTL-Package (für HTL-Grün)
+\usepackage{htlstp}
+
+\usepackage{listings}
+\usepackage{color}
+%\usepackage[allfiguresdraft, filename, style = {bf}, size = {huge}]{draftfigure} % Replace images with placeholder
+\usepackage{url}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+\lstdefinelanguage{javascript}{
+  keywords={break, case, catch, const, let, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
+
+%%==== Definitionen fuer die Diplomarbeit ============%%
+\dokumenttyp{DIPLOMARBEIT}
+\title{Binobo - Mechanischer Controller zur Erfassung aller Rotationspunkte einer menschlichen Hand}
+\author{Dominik Lovetinsky \and Philipp Maschayechi}
+\date{\today}
+\place{St. P\"olten}
+\schuljahr{2021/22}
+\professor{Dipl.-Ing. Ronald Spilka \and Dipl.-Ing. Werner Damböck}
+\dipacolor{htlgruen}
+%%====================================================%%
+
+
+\usepackage{float}
+% Hyperlinks im Dokument
+\usepackage[colorlinks=true,
+			linkcolor=black,
+			citecolor=blue,
+			bookmarks=true,
+			urlcolor=black,
+			bookmarksopen=true]{hyperref}
+
+\begin{document}
+
+\frontmatter
+
+%%================ Titelseite ==========================%%
+\maketitle
+% Verantwortliche/Verfasser
+\responsible{Dominik Lovetinsky}
+%%======================================================%%
+
+%%================ Eidesstattliche Erklaerung ==========%%
+\begin{Eid}%Unterschrift der Diplomanden hinzufuegen!
+  \unterschrift{Dominik Lovetinsky}
+  \unterschrift{Philipp Maschayechi}
+\end{Eid}\newpage
+%%======================================================%%
+
+%%================ Diplomandenvorstellung ==============%%
+\input{Textparts/diplomanden.tex}
+%%======================================================%%
+\responsible{Philipp Maschayechi}
+
+%%================ Danksagungen ========================%%
+\input{Textparts/danksagungen.tex}
+%%======================================================%%
+
+%%================ Abstract /Zusammenfass. =============%%
+\input{Textparts/abstract.tex}
+\input{Textparts/zusammenfassung.tex}
+%\selectlanguage{english} % necessary for English speaking users
+% delete this line if your native language is German 
+%%======================================================%%
+
+%%================ Inhaltsverzeichnis ==================%%
+\tableofcontents
+%%======================================================%%
+
+
+%Ab hier Hauptteil
+\mainmatter
+
+\chapter{Ausgangslage und Vision}
+\label{chap:Objective}
+
+\input{Textparts/ausgangslageundso.tex}
+
+\chapter{Projektübersicht}
+
+\input{Textparts/Projekübersicht.tex}
+
+
+\section{Aufgabeneinteilung}
+\input{Textparts/arbeitsteilung.tex}
+
+%%======================================================%%
+
+\chapter{Hardwareaufbau}%pmas
+\label{chap:Hardware}
+Um die Freiheitsgrade der menschlichen Hand aufzunehmen, ist Hardware in Form eines
+Controller-Handschuhes erforderlich. Dieser besteht aus Mess- und Kommunikationselektronik,
+sowie einer 3D-gedruckten Struktur, welche der Befestigung und mechanischen Artikulierung der Elektronik dient.
+\section{Elektronik}
+\label{sec:Electronics}
+
+
+\subsection{ESP32}
+\label{ssec:ESP}
+\responsible{Dominik Lovetinsky}
+
+Der ESP32 (Abb. \ref{fig:esp32}) ist ein Microcontroller der Firma \texttt{Espressif}. Dieser \texttt{$\mu$C} wurde gewählt, da dieser die entsprechende
+Leistung besitzt, um in einer angemessenen Geschwindigkeit die Potentiometer lesen zu können. Zusätzlich besitzt dieser einen WIFI-Chip, wodurch es möglich ist, die Daten in einer sinnvollen Weise zu übertragen.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\linewidth]{Images/teile/footprints/esp32.png}
+  \caption{Footprint: ESP32}
+  \label{fig:esp32}
+\end{figure}
+
+Weiters besitzt dieser Controller ein natives USB-to-UART Interface, wodurch man über z.B. ein Smartphone kommunizieren kann.\newline
+
+\subsection{Drähte}
+\label{ssec:wires}
+\responsible{Philipp Maschayechi}
+Weil die Komponenten des Controllers, und damit auch die Verbindungen dazwischen,
+ständig in Bewegung sind, ist es wichtig Drähte zu wählen, welche die
+wiederholte Verformung aushalten und keine Behinderung der Bewegungsfreiheit
+darstellen. Aufgrund der vorhandenen Komponenten im Lager der Schule, fiel die 
+Wahl auf \textit{Flexivolt 0.25mm}-Drähte. Diese sind hochflexibel und somit perfekt für 
+eine solche Anwendung geeignet. Obwohl der Durchmesser nur 0.25mm beträgt, fließen bei 
+den genutzten hohen Widerständen, die in Kapitel \ref{ssec:potis} erklärt 
+werden, keine hohen Ströme 
+
+\subsection{Potentiometer}
+\label{ssec:potis}
+Um die Rotation an den Gelenken zu messen, werden \textit{Iskra PNZ11Z}-1$ M\Omega$- Drehpotentiometer genutzt.
+Die Wahl fiel auf variable Widerstände, da Hall-Rotationssensoren zu teuer und aufwändig für ein solches Projekt sind.
+Dehnmessstreifen wurden ebenfalls in Betracht gezogen, doch ist deren Messgenauigkeit stark
+von der Dehnbarkeit des Handschuhes abhängig, da dieser unter Umständen deutlich mehr nachgibt als der DMS.
+
+Somit werden simple Potentiometer genutzt, aufgrund ihrer Kostengünstigkeit, Verfügbarkeit und Einfachheit.
+Verstellbare Widerstände der Type \textit{PNZ11Z} bieten den Vorteil, sehr kompakt zu sein und
+mit einem hohen Widerstand den Stromverbrauch des Controllers gering zu halten.
+
+\begin{minipage}{0.5\textwidth}
+  \begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/teile/footprints/fp_poti.png}
+    \caption{3D-Footprint Potentiometer}
+  \end{figure}
+
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+  \begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/teile/footprints/poti.png}
+    \caption{reale Potentiometer}
+  \end{figure}
+\end{minipage}
+
+\subsection{Multiplexer}
+\label{ssec:multi}
+
+Da der ESP32 nur 16 Analogpins aufweist, allerdings, je nach Ausführung, an 20 bis 22
+Potentiometer die Spannung gemessen werden muss, kommt es zu einem Engpass an Inputs. Dieses Problem
+wird durch die Nutzung von Multiplexern behoben.
+Multiplexer schalten basierend auf einem binären Input einen Pin auf verschiedene Anschlüsse.
+Somit können in diesem Fall 4 Digitalpins und ein Analogpin als 16 Analogpins genutzt werden.
+Es werden zwei Multiplexer des Typs \textbf{CD74HCT4067} nach folgender Aufteilung genutzt:
+
+\begin{minipage}{0.5\textwidth}
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+      \hline
+      Multiplexer & Finger         \\
+      \hline
+      1           & Daumen         \\
+                  & Zeigefinger    \\
+                  & Mittelfinger   \\
+      \hline
+      2           & Ringfinger     \\
+                  & Kleiner Finger \\
+      \hline
+    \end{tabular}
+    \caption{Multiplexereinteilung}
+  \end{table}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+  Weiters wird das Handgelenk auf den äußeren Multiplexer, Multiplexer 2 gelegt.
+
+
+  Obwohl ein einzelner Chip ausreichend wäre, um genügend Analogpins bereitzustellen,
+  werden zwei genutzt, da dadurch der Aufbau einheitlicher und die Menge an
+  notwendigen und flexiblen Leitungen verringert wird, weil der ESP32 etwas
+  zu groß für die Montage am Handrücken ist und daher an der Handyhalterung am Arm
+  installiert ist.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+  \begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/teile/footprints/fp_multi.png}
+    \caption{3D-Footprint Multiplexer}
+  \end{figure}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+  \begin{figure}[H]
+    \centering
+    \includegraphics [angle=0, width=0.8\textwidth]{Images/teile/footprints/multi.png}
+    \caption{realer Multiplexer}
+  \end{figure}
+\end{minipage}
+
+
+\section{Eigens entwickelte Komponenten}
+\label{sec:Components}
+Um die in Kapitel \ref{sec:Electronics} detaillierten Komponenten
+auf dem Handschuh zu montieren, sind 3D-gedruckte Bauteile notwendig.
+
+\subsection{Epoxidharzdruck}
+\label{ssec:Print}
+Um hohe Genauigkeit, auch auf kleinem Maßstab bei den gedruckten
+Elementen zu gewährleisten, wurde 3D-Druck nach der SLA-Methode
+dem bekannteren FDM-Drucksystem bevorzugt.
+\\\\
+Beim SLA-Druck wird photosensitives Epoxidharz als Material genutzt, welches
+mittels eines hochauflösenden UV-Displays in dünnen Schichten gehärtet wird.
+Dies bietet einige Vorteile, unter anderem höhere Genauigkeit und Qualität der
+gedruckten Modelle, sowie bedingt verringerte Druckzeit,
+da diese nur von der Höhe des Modells abhängig ist.
+Diese Eigenschaften überwiegen unter den gegebenen Anforderungen den
+Nachteilen, wie das spröde Material und die giftigen Materialien.
+
+
+Sämtliche Modelle wurden mit einem \textit{Anycubic Photon} SLA-Drucker ausgedruckt. Da
+allerdings nicht der Drucker sondern die Druckmethode hier entscheidend ist, ist es möglich,
+die Komponenten mit jedem vergleichbaren SLA-Drucker anzufertigen.
+
+Das genutzte Epoxidharz war ebenfalls von der Marke \textit{Anycubic},
+aufgrund der Möglichkeit von Hautkontakt mit den gedruckten Elementen
+wurde ein sojaölbasierendes Harz gewählt, welches für geringere Geruchsbelastung
+und angenehmeres Handling der Komponenten sorgt als das konventionelle,
+kunststoffbasierte Harz.
+
+Eine interessante Eigenschaft des schwarz gefärbten Stoffes ist, dass
+sich über längere Zeiträume der Farbstoff absetzt, was zu leicht transparenten Modellen führt. Weshalb in den Fotos in Kapitel \ref{ssec:Models}
+manche Teile heller und transluzenter sind als andere.
+Dies hat keinen Einfluss auf die Qualität des Druckes.
+
+\subsection{Blender}
+\label{ssec:Blender}
+Um die, im folgenden Kapitel \ref{ssec:Models} detaillierten, Modelle zu entwickeln, wurde das Open-Source
+3d-Modellierungs- und Animationsprogramm \textit{Blender}\cite{blender} einer technischeren Alternative, wie Beispielsweise
+\textit{Autodesk Inventor}\cite{inventor}, oder \textit{Autodesk Fusion 360}\cite{fusion} vorgezogen, obwohl diese genauso geeignet für diesen Zweck wären.
+Der Grund für diese Entscheidung lässt sich zum Teil auf bestehende Erfahrung mit dem Programm zurückführen,
+doch weitere wichtige Faktoren waren unter anderem:
+\begin{itemize}
+  \item Geringer Aufwand zur Kreation neuer Modelle
+  \item 3D-Druck erfordert keine technischen Baupläne zur Produktion von Teilen
+  \item Einfache punkt-, kanten- und flächenweise Manipulation von Modellen
+  \item Erstellung hochwertiger Grafiken zur Dokumentation
+\end{itemize}
+Weiters ist \textit{Blender} im Gegensatz zu \textit{Inventor} kostenlos und kann somit auch nach Auslauf der Schullizenz
+genutzt werden. Die Downloadgröße und erforderlichen Systemressourcen von \textit{Inventor} dienten auch als Grund für die Entscheidung.
+
+Die einzigen Nachteile von \textit{Blender} zeigen sich in der Organisation der Dateien, obwohl das vielmehr
+in den Verantwortungsbereich des Nutzers fällt.
+\pagebreak
+\subsection{Modelle}
+\label{ssec:Models}
+
+\input{Textparts/Modelle/controller_poti_holder.tex}
+\\\\
+\input{Textparts/Modelle/plates.tex}
+\pagebreak
+\input{Textparts/Modelle/levers_struts.tex}
+%%======================================================%%
+
+
+\chapter{Softwarearchitektur}
+\label{chap:software_arch}
+\responsible{Dominik Lovetinsky}
+
+In der nachstehenden Grafik (Abb. \ref{fig:soft_arch}) ist die grundlegende Architektur der Software zu sehen:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{Images/software_architektur.png}
+  \caption{Softwarearchitektur}
+  \label{fig:soft_arch}
+\end{figure}
+
+Zu erkennen sind hier fünf wesentliche Komponenten:\newline
+
+\begin{itemize}
+  \item Spring Boot\cite{springboot} - Webserver
+  \item Websockets\cite{websockets_library} - Server
+  \item PostgreSQL\cite{postgres} - Datenbank
+  \item Controller - Handschuh, welcher den ESP32\cite{esp32} und eine Android\cite{android_java}-App umfasst
+  \item Webserver - Frontend
+\end{itemize}
+In den Kapitel \ref{chap:firmware}, \ref{chap:py_websocket_server} \& \ref{chap:spring_boot_webserver} werde die einzelnen Komponenten genauer erläutert.\newline
+
+\section{Erklärung der Softwarearchitektur}
+\label{sec:software_arch_2}
+
+
+Der grundlegende Gedanke hinter der Softwarearchitektur ist jener, dass ein Emulator und ein Blog für die registrierten Nutzer verfügbar ist. Um dies zu realisieren, wurde ein Spring-Boot
+Webserver bereitgestellt, welcher die nötigen Funktionalitäten beherbergt, um diese Webapplikationen sinvoll und möglichst effizient bereitstellen zu können.\newline
+
+Mit dem Java-Package \textit{Hibernate}\cite{hibernate} wurde eine Verbindung zu einer PostgreSQL Datenbank hergestellt, welche
+die registrierten Nutzer, die erstellten Blog-Einträge und etwaige andere benötigte Daten persistiert.\newline
+
+Der Python Websocket-Server wurde benötigt, um eine echtzeitnahe Verbindung mit dem ESP32 (Controllerhandschuh) herzustellen. Prinzipiell wäre dies auch mit Java-Websockets möglich, jedoch
+verwendet das Framwork \textit{Spring} das Session-Level Protokoll \textbf{STOMP}\cite{stomp}. Da es in dem Framework \textit{Micropython}\cite{micropython} keine Realisierung dafür gab, wurde einfachkeitshalber ein Websocket Server
+mithilfe von Python aufgesetzt, welcher native Socketverbindungen akzeptiert. Um die erfassten Daten nun auch an die Clienten weiterreichen zu können muss dieser Server ebenfalls wissen, wer die registrierten Clienten sind, dies wird über Python-Dictionaries realisiert,
+nähere Informationen, siehe Kapital \ref{chap:py_websocket_server}.\\
+
+Damit die Software die empfangenen Daten dem entsprechenden Nutzer zuordnen kann, muss der ESP32 nach dem Bootvorgang konfiguriert werden. Hierfür wurde eine Andriod-Applikation entwickelt, welche über eine native USB Verbindung mit dem
+Controller kommuniziert und diesen dann sagt, mit welchem WLAN sich der ESP32 verbinden soll und welcher Nutzer gerade verbunden ist.\newline
+
+\chapter{Spring Boot Webserver}
+\label{chap:spring_boot_webserver}
+
+In Kapitel \ref{chap:software_arch} wurde kurz die Notwendigkeit des Java Webservers erläutert, jedoch umfasst dieser weit mehr Funktionalitäten, als im vorrigen Kapitel beschrieben.\newline
+Beispielsweise muss dieser Server User-Authentication handhaben, HTML-Templates rendern, Modell-Data bereitstellen und aus der Datenbank fetchen, STOMP-Endpoints bereitstellen uvm. können . Für Erklärung der
+jeweiligen Funktionalitäten, vergleiche nachfolgende Kapitel.\newline
+
+Das fertige Projekt kann auf folgendem Github-Repository gefunden werden:\newline
+
+\url{https://github.com/psykovski-extended/binobo.git}
+
+\section{Spring}
+
+Das Java-Framework \textbf{Spring}, oder genauer \textbf{Spring Boot} bietet diverse Funktionalitäten, welche das Entwickeln und Bereitstellen eines Webserver maßgeblich vereinfachen, wie zum Beispiel:\newline
+\begin{itemize}
+  \item Dependency Injection\cite{dep_inj}
+  \item Spring JDBC\cite{spring_jdbc}
+  \item Spring ORM
+  \item Spring MVC\cite{mvc}
+  \item Spring Security\cite{spring_sec}
+  \item Spring AOP\cite{spring_aop}
+  \item Spring Test
+  \item Embedded Webserver (Tomcat\cite{tomcat}, TomEE\cite{tomee}, ...)
+  \item Health-Checks der aktuell laufenden Applikation
+  \item Externalised Configuration durch \texttt{application.properties} - Files
+\end{itemize}
+
+Die Entwicklerumgebung \textbf{IntelliJ}\cite{intellij} bietet einen eingebetteten \textbf{Spring-Initializr}\cite{spring_init} Projektsetup-Dialog, bei welchen man die benötigten Dependencies direkt vorweg auswählen kann. Weiters werden
+hierdurch Standardkonfigurationen in das \texttt{pom.xml} oder \texttt{build.gradle} File geladen, abhängig von dem gewählten Build und Dependency - Management Tool.\newline
+
+Bei diesem Projekt wurde das Dependency-Management und Build Tool \textbf{Maven}\cite{maven} gewählt. Nachstehend ist eine kurze Zusammenfassung der verwendeten Java-Libraries gelistet:\newline
+
+\begin{itemize}
+  \item Spring Boot Security\cite{spring_sec}
+  \item Spring Boot Data REST\cite{spring_rest}
+  \item Spring Boot Data JPA\cite{spring_jpa}
+  \item Thymeleaf\cite{thymeleaf}
+  \item Spring Boot Starter Web\cite{spring_web}
+  \item Spring Boot Validation\cite{spring_valid}
+  \item Lombok\cite{lombok}
+  \item Tomcat\cite{tomcat}
+  \item Inject\cite{dep_inj}
+  \item PostgreSQL Connector\cite{postgres}
+  \item Spring Boot Mail
+  \item Spring Boot Websockets
+\end{itemize}
+
+Eine genaue Auflistung aller verwendeten Libraries ist im Github-Repository \cite{git_spring} zu finden.\newline
+Aus dieser Liste kann man ebenfalls entnehmen, dass als Webserver der Apache Tomcat verwendet wird.\newline
+
+\subsection{Spring MVC}
+
+\texttt{Spring MVC}\cite{mvc} ist ein Modul des Spring Frameworks, welches die Integration des MVC Design-Patterns ermöglicht. \texttt{MVC} steht für \texttt{Model - View - Controller} und ist ein Entwicklungsschema für Serveranwendungen.\newline
+
+\textbf{Model}
+
+Model steht in diesem Sachzusammenhang für die persistenten und objektrelationalen Datenbanktabellen, welche auf Javaobjekte abgebildet werden. Model-Daten werden unter anderem von der Template-Rendering Engine \texttt{Thyemleaf} dafür verwendet, um
+dynamische HTML-Templates zu rendern.\newline
+Die Model-Daten werden über die \texttt{Controller} an Thymeleaf übergeben durch sogenannte \texttt{Modelattribute}.\newline
+
+\textbf{View}
+
+Das View (englisch für Präsentation) referiert in Spring auf die HTML-Templates, welche durch Thymeleaf gerendert werden. Anders als die Models gibt es keine diskrete Softwareschicht, welche die Views repräsentiert,
+diese Schicht zeichnet sich nur durch die gerenderten HTML-Templates aus.\newline
+
+\textbf{Controller}
+
+Die Controller stellen in Spring Boot die \texttt{HTTP-Endpoints} dar, welche die eingehenden HTTP-Requests annehmen und verarbeiten. Weiters ist diese Schicht dafür da, die Model-Daten an die Templates weiterzugeben.
+Für nähere Informationen zu Controller, vergleiche Kapitel \ref{sec:controller}
+
+\subsection{Seperation of Concerns}
+
+Bei \texttt{Seperation of Concerns}\cite{soc} geht es um die Seperation der Fehler durch das direkte zuordnen von Java-Packages zu genau einer Aufgabe ($\hat{=}$ single-responsibility-approach). Hierdurch wird das Lösen von
+auftretenden Fehler maßgeblich vereinfacht.\newline
+
+Hierbei verpackt man Javaklassen, welche zum Beipiel die Service-Schicht einer Applikation darstellen, in einem \texttt{Package}, welches \texttt{service} genannt wird, zusammen. Das macht man dann mit den weiteren \texttt{Layern} des Projekts mit
+genau dieser Vorgehensweise - man benennt ein \texttt{Package} nach der Schicht, welche die darin enthaltenen Javaklassen abbilden.\newline
+
+\begin{lstlisting}[caption={Role-Service Interface}, captionpos=b, label={listing:role_service}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.service;
+
+import htlstp.diplomarbeit.binobo.model.Role;
+
+import java.util.List;
+
+public interface RoleService {
+    List<Role> findAll();
+    Role findById(Long id);
+}
+\end{lstlisting}
+
+Dieses Beipiel (Listing \ref{listing:role_service}) zeigte ein Java-Interface, welches die Funktionalität eines Services bereitstellt. Anhand des \texttt{package} - Schlüsselwortes kann man den Pfad dieses Interfaces erkennen: \texttt{htlstp.diplomarbeit.binobo.service}.\newline
+Es wurde darauf geachtet, jede Schicht der Softwarearchitektur in entsprechned benannte Packages zu verpacken um möglichst strukturiert und übersichtlich zu sein.\newline
+
+\subsection{Spring Konfiguration}
+
+Damit ein Spring Boot Projekt ordnungsgemäß funktioniert und die benötigten Applikationsumgebungsvariabeln bereitzustellen, muss ein \texttt{application.properties} File erstellt werden mit den benötigten
+Konfigurationen, wie zum Beispiel die Datasoucre-URL. Listing \ref{listing:app_prop} zeigt die für dieses Projekt erstelle Konfigurationsdatei:\newline
+
+\begin{lstlisting}[caption={application.properties}, captionpos=b, label={listing:app_prop}, numbers=left,
+  stepnumber=1]
+# creates SPRING_SESSION db
+spring.session.store-type=jdbc
+spring.session.jdbc.initialize-schema=always
+
+# server port
+server.port=80
+
+# setup PostgreSQL Database and Hibernate config
+spring.datasource.url=jdbc:postgresql://localhost:3406/binobo_db
+spring.datasource.username=postgres
+spring.datasource.password=<root_password>
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL92Dialect
+
+# mail config for email-verification
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=dominik.lovetinsky99@gmail.com
+spring.mail.password=<email_password>
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+server.ssl.enabled=false
+\end{lstlisting}
+
+Zu beachten ist, dass die Passwörter entfernt wurden, aus sicherheitstechnischen Gründen.\newline
+Die erste Konfigurationszeile mit \texttt{spring.session.store-type=jdbc} sorgt dafür, dass die Backend-Session für Datenbankkommunikation mit \texttt{JDBC}\cite{spring_jdbc} initialisiert werden soll. Für nähere Informationen zu
+\texttt{JDBC}\cite{spring_jdbc} vergleiche Kapitel \ref{sec:jdbc}.\newline
+Die zweite Zeile stellt ein, dass die Datenbank-Schemas immer bei start des Programmes initialisiert werden soll. Mit der Zeile \texttt{server.port=80} wird der Serverport auf den standard HTTP-Port \texttt{80} gelegt.\newline
+Die nachfolgenden Zeilen konfigurieren Hibernate und die dafür Notwendigen Umgebungsvariablen, wie zum Beipiel die \texttt{Datasource-URL} mit \newline\texttt{spring.datasource.url=jdbc:postgresql://localhost:3406/binobo$\_$db},
+und die dafür notwendigen Login-Daten mit \texttt{spring.datasource.username=postgres} und \texttt{spring.datasource.password=<roor$\_$password>}.\newline
+
+Danach ist dann die Email-Konfiguration zu sehen, welche benötigt wird, um über den Java-Mailsender Emails zu versenden. Diese Funktionalität wird benötigt, um die Emailadressen der registrierten Nutzer zu bestätigen.\newline
+
+Schlussendlich wurde dann noch \texttt{SSL}\cite{ssl} für diesen Server deaktiviert. Da jedoch aus sicherheitstechnischen Gründen \texttt{HTTPS} verwendet werden sollten, wenn man mit einem Server kommuniziert,
+wurde dies dann mithilfe eines \texttt{Reverse-Proxys} und dem dazugehörigen \texttt{certbot}\cite{certbot} gemacht.\newline
+
+\subsection{Spring Security}
+
+\texttt{Spring Security}\cite{spring_sec} wird benötigt um Registrierungen und eingeloggte Nutzer zu verwalten - dies wäre auch möglich ohne diesem Package, jedoch vereinfacht dies die Implementierung von Authentication und Authorization
+maßgeblich, sowie die Generierung und Verwaltung des \texttt{JSESSIONID} - Cookies.\newline
+Listing \ref{listing:spring_sec_config} zeigt die erstellte Konfigurationsdatei.\newline
+
+Da dieses Code-Snippet sich selbst durch entsprechende Kommentare erklärt, ist dieses im Anhang zu finden.\newline
+
+\subsection{Controller und Rest-Controller}
+\label{sec:controller}
+
+\texttt{Controller} und \texttt{Rest-Controller}\cite{rest} sind HTTP - Endpoints, welche HTTP - Requests annehmen und verarbeiten. Damit Spring erkennt, welche Klasse
+ein Controller oder Rest-Controller ist, muss hier ebenfalls wieder die entsprechende Annotation verwendet werden.\newline
+Nachstehendes Listing zeigt die \texttt{UserController} Klasse, welche für das Verarbeiten und Rendern der Profilseite benötigt wird:\newline
+
+
+\begin{lstlisting}[caption={User-Controller}, captionpos=b, label={listing:user_controller}, language=java, numbers=left,
+  stepnumber=1]
+@Controller
+@RequestMapping(value = "/user")
+public class UserController {
+
+  private final PostService postService;
+  private final UserService userService;
+  private final BookmarkService bookmarkService;
+
+  @Autowired
+  public UserController(PostService postService, UserService userService, 
+                        BookmarkService bookmarkService){
+    this.postService = postService;
+    this.userService = userService;
+    this.bookmarkService = bookmarkService;
+  }
+
+  @GetMapping(value = "/profile")
+  public String getProfileInfo(Model model, Principal principal){
+    User user = (User)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+    model.addAttribute("user", user);
+    List<Post> posts = new ArrayList<>();
+    List<Bookmark> bookmarks = bookmarkService.findAllByUser(user);
+    bookmarks.forEach(element -> {
+        posts.add(postService.findById(element.getPost().getId()));
+    });
+
+    model.addAttribute("bookmarks", posts);
+    model.addAttribute("posts", postService.findByUser(user));
+
+    return "user/profile";
+  }
+
+}
+\end{lstlisting}
+
+Auf Zeile \texttt{1} sieht man direkt die Annotation \texttt{@Controller}, welche Spring mitteilt, dass diese Klasse ein Controller ist, welcher HTTP anfragen mit den Pfad \texttt{/user/**} annimmt, wie
+es auf Zeile \texttt{2} mit \texttt{@RequestMapping(value = "/user")} durch eine weitere Annotation bestimmt wurde.\newline
+Zeile \texttt{9} ist mit \texttt{@Autowired} annotiert, dies wird benötigt für \texttt{Dependency-Injection}. Für nähere Informationen hierzu, vergleiche Kapitel \ref{sec:depInj}.\newline
+
+Sogenannte HTTP-Endpoints werden durch das Annotieren einer Funktion mit einer der folgenden Annotationen gekennzeichnet:
+
+\begin{itemize}
+  \item \texttt{@GetMapping}
+  \item \texttt{@PostMapping}
+  \item \texttt{@PutMapping}
+  \item \texttt{@PatchMapping}
+  \item \texttt{@DelteMapping}
+\end{itemize}
+Nachstehendes Listing zeigt einen dieser Endpoints, welcher Daten an das Model übergibt, welche für das Rendern des Views benötigt werden:\newline
+
+\begin{lstlisting}[caption={HTTP-Endpoint}, captionpos=b, label={listing:http_endpoint}, language=java, numbers=left,
+  stepnumber=1]
+@GetMapping(value = "/blog")
+public String listAllBlogs(Model model){
+  List<Post> posts = postService.findAll();
+  model.addAttribute("posts", posts);
+
+  return "blogOverview";
+}
+\end{lstlisting}
+
+Die Annotation \texttt{@GetMapping} teilt Spring Boot mit, dass diese Funktion Get-Requests der URI \texttt{/blog} annimmt und verarbeitet. Übergeben wird von Spring ein Model-Objekt, zu welchen die Daten zur weiteren Verarbeitung übergeben werden.
+Thymeleaf nimmt diese Daten und rendert damit das zurückgegebene HTML-Template \texttt{blogOverview}.\newline
+Die Daten werden an das Model durch den Funktionsaufruf \texttt{model.addAttribute} übergeben, und nimmt in dieser Version zwei Parameter an: Einmal der Name der Modeldaten wie es in dem jeweiligen Template referenziert wird und als zweiten Parameter die Objektdaten.\newline
+Das Returnstatement dieser Funktion teilt Thymeleaf mit, welches Template gerendert werden soll.\newline
+
+\subsection{Services}
+
+Die Definition eines \texttt{Services} kommt ursprünglich von einem Design-Pattern, welches im Jahre 2003 von \textbf{Eric Evans} erstellt wurde: \texttt{Domain-Driven Design} (kurz: DDD)\cite{ddd}.
+Hierbei geht es darum, komplexe Software in klar definierte Abstraktionsschichten zu unterteilen. So findet das DDD-Pattern auch in Spring Boot Anwendung. Ein Service ist in diesem Sinne
+eine Klasse, welche gewisse Funktionen zur Verarbeitung von Daten bereitstellt.\newline
+In Spring Boot wird diese Schicht verwendet, um von den Controllern aus mit Datenbanken zu kommunizieren. Der Programmfluss geht demnach zuerst vom Controller in eine Service-Schicht und von diesem
+Service dann entweder wieder weiter zu einer anderen Service-Schicht oder zu einer Repository-Schicht.\newline
+
+In Spring Boot wird die Service-Schicht üblicherweise über Interfaces definiert, welches in einer Java-Klasse mit der Annotation \texttt{@Serive} implementiert wird. Durch diese Annotation erstellt
+man gleichzeitig eine \texttt{Bean}\cite{beans} auf welches durch Dependency-Injection\cite{dep_inj} zugegriffen werden kann, für nähere Informationen zu \texttt{Dependency} \texttt{Injection}, vgl. Kapitel \ref{sec:depInj}.\newline
+
+Nachstehend Listing zeigt ein Interface und die dazugehörige Implementierung von diesem:\newline
+
+\begin{lstlisting}[caption={Category-Service Interface}, captionpos=b, label={listing:cat_service}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.service;
+
+import htlstp.diplomarbeit.binobo.model.Category;
+import java.util.List;
+
+public interface CategoryService {
+    List<Category> findAll();
+
+}  
+\end{lstlisting}
+\begin{lstlisting}[caption={Category-Service Implementierung}, captionpos=b, label={listing:cat_service_impl}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.service;
+
+import htlstp.diplomarbeit.binobo.model.Category;
+import htlstp.diplomarbeit.binobo.repositories.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CategoryServiceImpl implements CategoryService{
+
+    private final CategoryRepository categoryRepository;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
+    }
+}
+\end{lstlisting}
+
+Erkennbar ist die Annotation \texttt{@Service} und die Implementierung des Interfaces \texttt{CategoryService} in der Javaklasse \texttt{CategoryServiceImpl}. Ebenfalls zu sehen sind die
+implementierten Funktionen aus \texttt{CategoryService}, gekennzeichnet durch @Override.\newline
+Dieser Service wird zum Anzeigen der verfügbaren Kategorien, unter welchen Blogeinträge kategorisiert werden können, benötigt.\newline
+
+\subsection{Asynchrones Programmieren}
+
+Asynchrones Programmieren ist eine aus der Webprogrammierung stammende Begrifflichkeit. Asynchrone Prozesse sind Prozesse, welches parallel zum Hauptprogramm laufen, aber nicht auf einem sepeartem
+Thread, sondern durch den Scheduler in kleinen Portionen am Mainthread abgearbeitet werden. Durch asynchrone Programmierung entseht eine \texttt{non-blocking} und \texttt{event-driven} Software\cite{async_coding}.\newline
+
+Um in Spring Boot hiervon gebrauch machen zu können, muss man eine weitere Konfigurationsdatei erstellen:\newline
+
+
+\begin{lstlisting}[caption={Async - Task Konfiguration}, captionpos=b, label={listing:async_config}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.configurator;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
+
+/**
+  * This class configures all asynchronous tasks, wich eventually will get executed and yielded to the scheduler.
+  * The maximum amount of async task is set to 20, because there is no need for more in the current state of the project.
+  */
+@Configuration
+public class AsyncConfig {
+
+    /**
+      * Global bean, says Spring that this has to be used to instantiate the ThreadPoolExecutor
+      * @return Returns the configured ThreadPoolExecutor
+      */
+    @Bean
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(20);
+        executor.setMaxPoolSize(20);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("Async Process -- ");
+        executor.initialize();
+        return executor;
+    }
+
+}
+\end{lstlisting}
+
+Prinzipiell macht Spring Boot von asynchromen Tasks standardgemäß gebrauch beim Verarbeiten eingehender HTTP-Request, um jedoch selbst asynchrone Tasks erstellen
+zu können, muss ein \texttt{Bean} mit dem Rückgabewert \texttt{Excecutor} erstellt werden.\newline
+Benutzerdefinierte asynchrone Tasks wurden in diesem Projekt benötigt um die Datenbank auf veraltete Einträge in der Tabelle für \texttt{robotdata} zu durchsuchen und um diese bei Bedarf zu löschen. Da anfänglich die erfassten Werte in
+dieser gespeichert wurden. Nach etwaigen Optimierungen viel die Notwendigkeit dieser Aufgabe jedoch weg, weswegen benutzerdefinierte asynchrone Tasks nicht mehr benötigut werden auf dem Server.\newline
+
+\subsection{Field-Matcher Annotation}
+
+Eine eigens entwickelte Annotation, welche benötigt wird, um zu überprüfen ob das \texttt{password} mit \texttt{password$\_$verify} Feld übereinstimmt.\newline
+Genauso wie ein Interface, benötigt eine Annotation ebenfalls eine \texttt{Blueprint} - Definition und eine Implementierung. Beide Features sind standardgemäß in der Programmiersprache Java
+eingebaut und sind nicht Spring-Spezifisch. Folgendes Listing zeigt das Interface und die Implementierung:\newline
+
+
+\begin{lstlisting}[caption={FieldMatch Annotation}, captionpos=b, label={listing:field_match_anno}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.service.validation;
+
+import javax.validation.Payload;
+import javax.validation.Constraint;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Target({TYPE, ANNOTATION_TYPE})
+@Retention(RUNTIME)
+@Constraint(validatedBy = FieldMatchValidator.class)
+@Documented
+public @interface FieldMatch
+{
+    String message() default "The fields must match";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+    String first();
+    String second();
+
+    @Target({TYPE, ANNOTATION_TYPE})
+    @Retention(RUNTIME)
+    @Documented
+    @interface List
+    {
+        FieldMatch[] value();
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={FieldMatchValidator Klasse}, captionpos=b, label={listing:flield_match}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.service.validation;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+
+    private String firstFieldName;
+    private String secondFieldName;
+    private String message;
+
+    @Override
+    public void initialize(final FieldMatch constraintAnnotation) {
+        firstFieldName = constraintAnnotation.first();
+        secondFieldName = constraintAnnotation.second();
+        message = constraintAnnotation.message();
+    }
+
+    @Override
+    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
+        boolean valid = true;
+        try {
+            final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
+            final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
+
+            valid =  firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+        }
+        catch (final Exception ignore) {}
+
+        if (!valid){
+            context.buildConstraintViolationWithTemplate(message)
+                    .addPropertyNode(firstFieldName)
+                    .addConstraintViolation()
+                    .disableDefaultConstraintViolation();
+        }
+
+        return valid;
+    }
+}  
+\end{lstlisting}
+
+Gedacht war diese Annotation für Java-Strings, sie kann jedoch für jeden beliebigen der nicht-primitiven Datentypen verwendet werden.\newline
+
+
+\subsection{Dependency Injection}
+\label{sec:depInj}
+
+Dependency Injection\cite{dep_inj} ist ein in der objektorientierten Programmierung verwendetes Entwurfsschema, welches die Abhängigkeiten eines Objekts zur Laufzeit reglementiert. Diese Abhängigkeiten werden
+an einem zentralen Ort hinterlegt - in Spring Boot sind dies üblicherweise \texttt{Service} Implementierungen, welche in einem Package mit Namen \texttt{serivce} hinterlegt sind.\newline
+Ein großer Vorteil hiervon ist, dass nicht bei jeder Verwendung eines Interfaces dieses in der jeweiligen Klasse initialisiert werden muss. In Spring wird dies über \texttt{Java-Beans} geregelt, welche über
+\texttt{@Autowired} referenziert werden können. Spring erkennt dann die jeweils benötigte Resource, welche injiziert werden muss.\newline
+Folgendes Code-Snippet zeigt ein Beispiel einer Dependency-Injection:\newline
+
+\begin{lstlisting}[caption={User - Controller, Autowired Konstrukteur}, captionpos=b, label={listing:autowired_userc}, language=java, numbers=left,
+  stepnumber=1]
+private final PostService postService;
+private final UserService userService;
+private final BookmarkService bookmarkService;
+
+@Autowired
+public UserController(PostService postService, UserService userService, BookmarkService bookmarkService){
+    this.postService = postService;
+    this.userService = userService;
+    this.bookmarkService = bookmarkService;
+}
+\end{lstlisting}
+
+Die benötigten Resourcen werden beim Aufrufen dieses Konstruktors von Spring übergeben.\newline
+
+\subsection{Websockets und STOMP}
+
+Websockets sind eine Erweiterung des HTTP-Protokolls, welche dafür sorgt, dass HTTP-Verbindungen nach dessen Erstellung, aufrecht erhalten werden um so einen schnellen Datenaustausch zwischen zwei oder mehreren
+Clients zu ermöglichen.\newline
+\texttt{STOMP}\cite{stomp} steht für \texttt{Simple-Text-Oriented-Messaging-Protocol} und ist ein Protkoll, welches für Datenaustausch über Socket-Verbindungen verwendet wird. Jedoch aufgrund der
+nicht gebrauchten \textit{Komplexität} dieses Protokolls, welches Spring für Websocketverbindungen voraussetzt, wurde ein weiterer Server, welcher nur Websocketverbindungen akzeptiert, programmiert. Dies
+ermöglicht einen einfachen Datenaustausch zwischen dem \texttt{ESP32} und dem Webbrowser.\newline
+Für nähere Informationen zu Websockets und dem Websocketserver, vgl. Kapitel \ref{ssec:websockets_emu} \& \ref{chap:py_websocket_server}.
+
+\section{Hibernate}
+
+Auch wenn Spring eine Abstraktionsschicht für JPA, ORM und JDBC bietet, benötigt man dennoch eine weitere Schicht, welche die Funktionalitäten hierfür beherbergt. Hibernate\cite{hibernate} ist in diesem Falle
+das Java-Framework, welche die Notwendigen Funktionalitäten bereitstellt um mit Datenbanken interagieren zu können.\newline
+Sowohl Hibernate, als auch Spring sind Annoation basierend. Das heißt, dass der JVM und somit auch Spring durch diverse Annotations gesagt wird, welche Klasse welche Funktionalität bereitstellt und
+wo welche \texttt{Beans} zu finden sind.\newline
+
+\subsection{ORM}
+
+\textbf{ORM} steht für \texttt{Object Related Mapping}. Hierbei wird der objektorientierte Teil der Software, welcher persistent sein muss, durch sogenannte Entitäten ($\hat{=}$ POJOs) auf Datenbanktabellen abgebildet.\newline
+Der eben erwähnte Begriff \textbf{POJO} steht in der Javaprogrammierung für \texttt{Plain old Java Objects}. Ein POJO ist also eine klassische Java-Objekt-Definition mit standard Konstrukteur, Getter und Setter.\newline
+
+Folgende Objekte in diesem Projekt müssen persistent definiert sein:\newline
+
+\begin{itemize}
+  \item \texttt{User} - Die registrierten Nutzer
+  \item \texttt{Post} - Blog-Eintrag eines Nutzers
+  \item \texttt{Comment} - Kommentar eines Blog-Eintrags
+  \item \texttt{Bookmarks} - Lesezeichen, um Blogeinträge zu speichern
+  \item \texttt{Vote} - Definiert ob ein Kommentar nützlich oder unnütz ist
+  \item \texttt{Category} - Blogeinträgen werden Katagorien zugewiesen, um sie besser einordnen zu können
+  \item \texttt{Role} - Definiert die Rolle eines Users
+  \item \texttt{API$\_$Key} - Wird benötigt um asynchrone, aber sichere Rest-Calls an die Blog-API zu senden
+  \item \texttt{DataAccessToken} - Dient der Zuordnung der erfassten Rotationsdaten auf den entsprechenden Nutzer
+  \item \texttt{ConfirmationToken} - Dies ist ein 24h lange gültiger Token, welcher benötigt wird, um den Account eines Nutzers zu aktivieren
+\end{itemize}
+
+Solche persistenten Javaobjekte nennt man \texttt{Entities} oder \texttt{Models}.\newline
+
+Zur Erläuterung der Relationen der Datenstrukturen, siehe Kapitel \ref{sec:relations}.
+\newline
+
+Um der JVM mitzuteilen, dass ein POJO auf eine Datenbanktabelle abgebildet werden soll, muss diese Java-Objekt Klassendefinition mit \texttt{@Entity} von \texttt{javax.persistence} annotiert werden.\newline
+Weiters muss ebenfalls der \texttt{Primary-Key} dieser Tabelle definiert werden und die jeweiligen Spalten, welche das Abbild (die Tabelle in der Datenbank) dieses Objekts enthalten soll, folgendes Listing zeigt die Klassendefinition
+\texttt{Role} dieses Projekts um ein kurzes Beispiel zu listen:\newline
+
+\begin{lstlisting}[caption={Role - Entity}, captionpos=b, label={listing:role_entity}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.model;
+
+import javax.persistence.*;
+
+@Entity
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+\end{lstlisting}
+
+Aus diesem Beispiel kann man zumal den \texttt{Primary-Key} direkt herauslesen, welcher mit \texttt{@Id} und \texttt{@GeneratedValue(strategy = GenerationType.IDENTITY)} annotiert ist. Die Annotation \texttt{@Id} gibt an, dass dieses Feld
+der primäre Schlüssel dieses Objekts ist, mit der zweiten Annotation dieses Objekts wird bestimmt, dass dieser Wert automatisch generiert werden soll, jedoch mit nicht zufällig, sondern inkremental generiert wird.\newline
+Das zweite Feld dieser Klasse (\texttt{private String name}) wurde mit \texttt{@Column} annotiert, welche Hibernate sagt, dass dieses Feld eine Spalte in der Datenbank abbilden soll, mit dem Datentyp \texttt{VARCHAR} (\texttt{String} entspricht in PostgreSQL einem \texttt{VARCHAR}). Der name dieser Spalte ist dann
+der Name des Feldes.\newline
+
+\subsection{JPA}
+
+Um Java den Zugriff auf die Datenbank zu ermöglichen, benötigt man die \texttt{Java Persitence API}\cite{spring_jpa}. Diese API ermöglicht es Java eine Kommunikation mit der Datenbank herzustellen um Transaktionen zu tätigen.\newline
+JPA sorgt somit für die Persistenz der Java-Laufzeitobjekte indem diese die Objekte in der Datenbank speichert.\newline
+
+Der Unterschied zwischen \texttt{ORM} und \texttt{JPA} besteht darin, dass die Java Persitence API zwar die Daten laut POJO-Definition in der Datenbank persistiert, jedoch benötigt die JPA das ORM um zu erkennen, wie diese Objekte gespeichert werden sollen, deswegen spezifiziert man:\newline
+\begin{itemize}
+  \item JPA - Tätigt die notwendigen Transaktionen, um der Datenbank die notwendigen Instruktionen zu schicken, basierend auf den ORM-Patterns.
+  \item ORM - Objektrelationales Abbilden von Javaobjekten auf Datenbanktabellen
+\end{itemize}
+
+Mit JPA werden relationale Datenbankstrukturen auf Java Objekte Abgebildet und bietet ebenfalls vordefinierte generische Java Interfaces, welche vollkommen automatisch Funktionen für die entsprechenden Objekte erstellt. Typischerweise
+realisiert man das Abbilden eines Objekte auf eine Datenbanktabelle zuerst mit der Annotation \texttt{@Entitiy} und den dazugehörigen Spalten der Tabelle, jedoch um nun auch Datenbankoperationen ausführen zu können, muss in dem Spring Boot Projekt eine
+sogenannte \texttt{Repository} - Schicht erstellt werden.\newline
+Hierfür bedient man sich eines Java-Interfaces, welches ein Kind von der JPA-Klasse \texttt{JPARepository<T, ID>} ist. Der Java-Diamond-Operator '\texttt{<>}' wird in der Javaprogrammierung zur Deklaration einer \texttt{Generika} verwendet. Generika sind Java-Klassen,
+welche mit mehreren Datentypen von Java Kompatibel sind.\newline
+Eine solche Interface-Definition um objektspezifische Datenbankoperationen erstellen zu lassen, sieht wiefolgt aus:\newline
+
+\begin{lstlisting}[caption={JPA-Repository Interface Implementierungen}, captionpos=b, label={listing:jpa_repo}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.repositories;
+
+import htlstp.diplomarbeit.binobo.model.DataAccessToken;
+import htlstp.diplomarbeit.binobo.model.robo.RobotData;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface RobotDataRepository extends JpaRepository<RobotData, Long> {
+  RobotData findTopByOrderByIdAsc();
+  List<RobotData> findAllByDataAccessToken(DataAccessToken dataAccessToken);
+  Optional<RobotData> findTopByDataAccessToken(DataAccessToken dataAccessToken);
+  void deleteAllByDataAccessToken(DataAccessToken dataAccessToken);
+}
+\end{lstlisting}
+
+Dieses Interface ist ebenfalls in den oben gelisteten Github-Repository zu finden.\newline
+
+Etwas, was bei diesem Interface direkt auffällt, ist die Annotation \texttt{@Repository}, diese teilt Spring mit, dass dieses Interface eine \texttt{JavaBean} von Typ Repository ist.\newline
+Weiters kann man erkennen, dass die Funktionsnamen einer sehr deutlichen Struktur folgen. Spring erkennt nämlich an diesen Funktionsnamen, welche Datenbankoperation man bei Aufruf einer dieser Funktionen ausführen will und
+initialisiert während der Runtime den entsprechenden Funktionskörper (eng. \texttt{Function-body}).\newline
+
+\subsection{JDBC}
+\label{sec:jdbc}
+
+\texttt{JDBC} steht für \texttt{Java Database Connectivity} und ist eine universelle Datenbankschnittstelle für die Programmiersprache Java und ist speziell auf relationale Datenbanken ausgelegt\cite{spring_jdbc}.\newline
+Der Unterschied zur \texttt{JPA} ist jener, dass JDBC das Protokoll ist, mit dem Java mit der Datenbank kommunizieren kann. \texttt{JDBC} wandelt die Ergebnisse der Queries, welche an die Datenbank gesendet wurden, in eine für Java
+nutzbare Form um.\newline
+Deswegen muss man in Java die \texttt{Datasource-URL} wiefolgt angeben:\newline
+
+\texttt{jdbc:postgresql://localhost:3406/binobo$\_$db}\newline
+
+\texttt{JDBC} ist das dominierende Protokoll, durch welches mit der Datenbank kommuniziert wird, diesem nachfolgend steht \texttt{postgresql}, was Auskunft darüber gibt, dass es sich um eine PostgreSQL Datenbank handelt.\newline
+
+\pagebreak
+\subsection{PostgreSQL}
+
+PostgreSQL ist ein frei nutzbares, objektrelationales Datenbankmanagementsystem (ORDBMS)\cite{postgres}. Aufgrund dessen, dass PostgreSQl Open-Source ist, wurde dieses \texttt{ORDBMS} verwendet, um die Daten des Spring Boot Servers zu persistieren.\newline
+Weiters wird zur Verwanltung der PostgreSQL-Datenbankserver das Datenbankmanagement-Tool \texttt{pgAdmin 4} verwendet, welches ebenfalls Open-Source ist.\newline
+
+\subsection{Datenbankstruktur und Relationen}
+\label{sec:relations}
+
+In der nachstehenden Abbildung ist das ER - Diagram der PostgreSQL Datenbank zu sehen:\newline
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{Images/relationale_datenstruktur.png}
+  \caption{ER - Diagram der Datenbank}
+\end{figure}
+
+Dieses ERD wurde mithilfe der Testversion von der Software \texttt{Moon Modeler}\cite{moon_modeler} erstellt.\newline
+
+\section{Frontend}
+
+Das Frontend wurde mithilfe der dafür klassischen Markup-Sprache \texttt{HTML} oder \texttt{Hypertext Markup Language}, die Stylesheet-Sprache \texttt{CSS} oder \texttt{Cascading Style Sheets} und \texttt{JavaScript} entwickelt.\newline
+Als UI-Entwicklungstool zum erstellen der Blueprints der Website wurde \texttt{Figma} verwendet. Nachstehend ist der Link zu dem Figma-File zu sehen:\newline
+
+\texttt{https://www.figma.com/file/o7oOBzBj4csVCth27K6ms8/binobo?node-id=0\%3A1}\newline
+
+Folgendes Grunddesign wurde für das Frontend entworfen:\newline
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{Images/web_ui_base.png}
+  \caption{Web-UI}
+\end{figure}
+
+Auf diesem Layout basierend wurden die restlichen Seiten entworfen. Es wurde darauf geachtet, dass das Main-Layout eine fixe Größe hat und nur der
+Kontent, welcher innerhalb dessen ist, \texttt{scrollable} ist.\newline
+
+Folgende Funktionalitäten stellt das Frontend bereit:\newline
+\begin{itemize}
+  \item Homepage
+  \item Projektübersicht
+  \item Informationen über die Entwickler
+  \item Login
+  \item Blog
+  \item Emulator
+  \item Profilverwaltungsseite
+\end{itemize}
+
+Zur näheren Erläuterung der jeweiligen Seiten, siehe nachstehende Kapitel.\newline
+
+\subsection{Template-Engine Thymeleaf}
+
+Jede der entworfenen HTML-Seiten wurde dynamisch gehalten, damit diese mithilfe von \texttt{Thymeleaf} entsprechend des übergebenen Models gerendert werden können\cite{thymeleaf}.\newline
+Thymeleaf ist eine Template-Rendering Engine, welche mithilfe von Model-Daten gegebene HTML-Seiten dynamisch rendert. Spring Boot ermöglicht die Integration von Thymeleaf
+durch das einfache Einbinden eines Dependencies in der \texttt{pom.xml} Datei, welche von \texttt{Maven} zur Projektverwaltung verwnedet wird.\newline
+
+Thymeleaf kann innerhalb eines HTML-File durch das Einbinden des entsprechenden \texttt{XML-Namespaces} verwendet werden:\newline
+
+\begin{lstlisting}[language=html]
+  <html xmlns:th="http://www.thymeleaf.org">
+\end{lstlisting}
+
+Wie in diesem Beipiel ist der Namensraum typischerweise als Attribut des HTML-Tags \texttt{html} angeführt. Nach einbinden dieses Namensraums kann man auf die entsprechneden
+Funktionalitäten von Thymeleaf zugreifen, welche beim Rendern des Template von Thymeleaf erkannt werden und entsprechend Daten eingesetzt werden oder gegebene Anweisungen ausgeführt werden.\newline
+Beispielsweise kann man je nach Ergebnis einer bool'schen Vergleichsoperation eine Klasse an ein HTML-Element anfügen:\newline
+
+\begin{lstlisting}[language=html]
+  <div th:classappend="${current_user_vote_post == null ? '' : (!current_user_vote_post.isUseful ? 'checked' : '')}">
+\end{lstlisting}
+
+Der Thymeleaf-Syntax entspricht dem von Spring entworfenem \texttt{SpEL} - Syntax.\newline
+
+\subsection{Webjars}
+
+\texttt{Webjars} sind in \texttt{JAR}-Files komplierte Javascript Webresourcen\cite{webjars}. Hierdurch wird das Verwenden von etwaigen Javascript-Bibliotheken wesentlich vereinfacht.\newline
+Um Webjars verwenden zu können, muss folgende Dependencies in dem \texttt{pom.xml} eingebunden werden:\newline
+
+\begin{lstlisting}[caption={Webjars - Maven Dependencies}, captionpos=b, label={listing:webjars_deps_maven}, language=xml, numbers=left,
+  stepnumber=1]
+<dependency>
+  <groupId>org.webjars</groupId>
+  <artifactId>webjars-locator</artifactId>
+  <version>0.30</version>
+</dependency>
+<dependency>
+  <groupId>org.webjars</groupId>
+  <artifactId>webjars-locator-core</artifactId>
+</dependency>
+\end{lstlisting}
+
+
+Hierdurch können die benötigten Webresourcen durch mithilfe des gewählten Build und Dependency-Management Tools verwaltet werden. Folgende Javascript - Bibliotheken fanden in diesem
+Projekt Anwendung:\newline
+\begin{itemize}
+  \item \texttt{three.js} - vgl. Kapitel \ref{ssec:three}
+  \item \texttt{editor.md} - vgl. Kapitel \ref{ssec:editor_md}
+  \item \texttt{bootstrap} - wurde jedoch nicht benutzt
+  \item \texttt{jQuery} - benötigt für \texttt{AJAX}, vgl Kapitel \ref{ssec:blog_rest}
+\end{itemize}
+
+Analog dazu die benötigten Einträge im \texttt{pom.xml} File:\newline
+\begin{lstlisting}[caption={Webjars - Javascript Libraries}, captionpos=b, label={listing:webjars_deps_js}, language=xml, numbers=left,
+  stepnumber=1]
+<dependency>
+    <groupId>org.webjars.npm</groupId>
+    <artifactId>super-three</artifactId>
+    <version>0.111.6</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars.bowergithub.pandao</groupId>
+    <artifactId>editor.md</artifactId>
+    <version>1.5.0</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>bootstrap</artifactId>
+    <version>3.3.7</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.1.1-1</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars.npm</groupId>
+    <artifactId>three-orbit-controls</artifactId>
+    <version>82.1.0</version>
+</dependency>
+\end{lstlisting}
+
+Wenn diese Dependencies in dem \texttt{pom.xml} File eingebunden sind, kann auf diese in dem jeweiligen HTML-File folgendermaßen referenziert werden:\newline
+
+\begin{lstlisting}[language=html]
+<script src="/webjars/editor.md/editormd.js"></script>
+\end{lstlisting}
+
+Dieses Listing zeigt anhand der Javascript-Bibliothek \texttt{editor.md} wie das einbinden solcher JAR-Webresourcen funktioniert.\newline
+Jedoch muss man, bevor der Webbrowser auf diese Resourcen zugreifen kann, diesen Pfad über eine Konfigurationsdatei bestimmen:\newline
+
+\begin{lstlisting}[caption={WebMvcConfigurer - Implementierung}, captionpos=b, label={listing:webmvc}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.configurator;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer {
+
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/",
+            "classpath:/static/", "classpath:/public/" };
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/webjars/**", "/resources/**")
+                .addResourceLocations("/webjars/", "/resources/");
+        if (!registry.hasMappingForPattern("/**")) {
+            registry.addResourceHandler("/**").addResourceLocations(
+                    CLASSPATH_RESOURCE_LOCATIONS);
+        }
+    }
+}
+\end{lstlisting}
+
+Hiermit aktiviert man den Resourcenpfad zu Webjars, und gewährleisten weiterhin den Standardpfad zu statischen Webresourcen.\newline
+
+\section{Emulator}%gemeinsam
+\label{sec:emu}
+\responsible{Dominik Lovetinsky & Philipp Maschayechi}
+
+Zur Visualisierung der aufgenommenen Freiheitsgrade wird ein eigens in \textit{Blender} kreiertes 3D-Modell
+auf der Website mit Hilfe der in Kapitel \ref{ssec:three} genannten Library,
+\texttt{three.js}, dargestellt und den Messungen des Controllers entsprechend bewegt wird.
+Dieser 3D-Viewport funktioniert ohne Download innerhalb des Browsers auf den meisten Geräten und
+nutzt die lokale Hardware zur Darstellung von Grafiken.
+Innerhalb dieses Fensters kann sich der Nutzer frei bewegen und umschauen, um eine gute
+Ansicht für die aktuelle Handposition zu erlangen.
+
+Um die echtzeitnahe Emulation dieser Werte gewährleisten zu können, wurde ein Websocketserver mithilfe der Skriptsprache \texttt{Python} programmiert, nähere Informationen
+zu Websockets und dem Websocketserver sind in Kapitel \ref{ssec:websockets_emu} \& \ref{chap:py_websocket_server} zu finden.\newline
+
+Der entwickelte Sourcecode des Emulators ist im Anhang zu finden in Listing \ref{listing:emu_source}.\newline
+
+\subsection{three.js}
+\responsible{Philipp Maschayechi}
+\label{ssec:three}
+\texttt{three.js}\cite{threejs} ist eine JavaScript-Library, welche dazu genutzt werden kann, echtzeit-3D-Anwendungen in JavaScript zu programmieren.
+Sie bietet eine Alternative zu Browser-3D-Engines, wie zum Beispiel \texttt{Unity WebGL}.
+
+Die Library ist frei nutzbar und auf \hyperlink{threejs.org}{threejs.org}
+erhältlich. Sie ist für ein großes Spektrum an Anwendungen geeignet, von
+dreidimensionalen oder animierten Websitehintergründen bis hin zu 3D-Browserspielen
+oder sogar Virtual-Reality Anwendungen.
+
+\subsection{Websockets}
+\label{ssec:websockets_emu}
+\responsible{Dominik Lovetinsky}
+Um eine echtzeitnahe Emulation zu ermöglichen, ist eine Websocketverbindung unabdingbar. Denn durch solche Verbindungen ist es möglich, nur Daten ohne HTTP-Request-Header zu versenden,
+da sicher der Server in der Mitter zweier Clienten merkt, wer verbunden ist und akzeptiert jede Art von eingehenden Daten und leitet diese je nach Bedarf weiter.\newline
+Weiters ist durch die Verwendung von Websockets eine bidirektionale Kommunikation zwischen Server und Client möglich.\newline
+
+Javascript bietet vorgefertigte Objekte um mit Websockets arbeiten zu können: Die \texttt{Websocket} Klasse. Folgendes Listing (\ref{listing:browser_websock_client}) zeigt die \texttt{connect-Funktion} des Emulator-Sourcecodes:\newline
+
+
+\begin{lstlisting}[caption={Webbrowser - Websocketclient}, captionpos=b, label={listing:browser_websock_client},language=javascript, numbers=left,
+  stepnumber=1]
+function connect(node) {
+  node.onclick = () => disconnect(node);
+  node.classList.add("connected");
+
+  socket_data_receiver = new WebSocket('wss://emulator.binobo.io/' + token);
+  socket_ping = new WebSocket('wss://emulator.binobo.io/');
+  socket_ping_receiver = new WebSocket('wss://emulator.binobo.io/ping_' + token);
+
+  socket_ping_receiver.addEventListener('message', ({ data }) => {
+      let x = new Date();
+      let ping = x.getTime() - eval(data);
+      let node = document.getElementById("ping")
+      node.innerHTML = ping + "ms"
+  });
+
+  socket_ping.addEventListener('open', evt => {
+      socket_ping_interval = setInterval(() => {
+          socket_ping.send('["ping_' + token + '",' + (new Date()).getTime() + "]");
+      }, 10000);
+      setTimeout(() => {
+          socket_ping.send('["ping_' + token + '",' + (new Date()).getTime() + "]");
+      }, 1000);
+  });
+
+  socket_ping_receiver.addEventListener('open', evt => {
+      socket_ping_receiver.send('ping receiver for: ' + token)
+  });
+
+  socket_data_receiver.addEventListener('message', ({data}) => {
+      try {
+          for(i of eval(data)){
+              data_buffer[data_buffer.length] = i;
+          }
+      } catch (e) {
+          console.log('wrong data-format received: ' + data)
+      }
+  });
+  socket_data_receiver.addEventListener('open', evt => {
+      socket.send('receiver for: ' + token)
+  })
+  document.getElementById("connect").innerHTML = "stop";
+}
+\end{lstlisting}
+
+In dieser Funktion werden drei Websocketverbindungen aufgebaut:\newline
+\begin{enumerate}
+  \item \texttt{socket$\_$data$\_$receiver} - Empfängt und verarbeitet die eingehenden Daten
+  \item \texttt{socket$\_$ping} - Ping-Sender
+  \item \texttt{socket$\_$ping$\_$receiver} - Ping-Empfänger
+\end{enumerate}
+
+Die Websocketverbindung für das Pingen musste aufgrund der Websocketserverstruktur auf einen Ping-Sender und einen Ping-Empfänger Socket aufgeteilt werden, vgl. Kapitel \ref{chap:py_websocket_server}. Gemessen wird das Ping alle 10 Sekunden
+und funktioniert folgendermaßen:\newline
+\begin{itemize}
+  \item \texttt{socket$\_$ping} sendet dem Server die aktuelle Zeit in Milisekunden
+  \item Der Server empfängt diesen Timestamp und leiten dieses weiter zu dem dazugehörigen Client, gekennzeichnet durch einen Token
+  \item \texttt{socket$\_$ping$\_$receiver} empfängt diesen Timestamp und subtrahiert diesen von der aktuellen Zeit, die Differenz gibt an, wie lange es dauert, Daten zu dem Server zu schicken und wieder zu empfangen
+\end{itemize}
+
+Durch diese Methodik kann man ungefähr auf die tatsächliche Latenz rückschließen, welche von der Datenerfassung des ESP32 bis hin zum Empfangen und Anzeigen der Daten am Server auftreten wird.\newline
+
+Das Empfangen der Daten wird durch sogenannte \texttt{Eventlistener} ermöglicht, welche asynchron und parallel zueinander arbeiten.\newline
+
+Der \texttt{socket$\_$data$\_$receiver}-Websocket empfängt die Daten immer in folgendem Format:\newline
+
+\begin{lstlisting}
+  data = [[double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double], [...], ...]
+\end{lstlisting}
+
+Ein zweidimensionales Array, bestehend aus 22 - double-precission-Werten. Jeder Double-Wert bildet genau ein Gelenk ab.\newline
+
+
+\subsection{IIR - Filter}
+
+Da die gemessenen Werte ein dezentes Rauschen aufwiesen, wurde ein sogenannter \texttt{Infinite Inpulse Response Filter}\cite{iir_filter} - Algorithmus auf der Website implementiert. Dieser Filteralgorithmus ist rekursiv und benötigt zum filtern einen frei wählbaren Dämpfungsgrad $w$ und den vorherigen gefilterten Wert (daher rekursiv):
+\begin{align*}
+  y_n = w \cdot x_n + (1 - w) \cdot y_{n-1}
+\end{align*}
+
+Der gefilterte Wert, gekennzeichnet durch $y_n$ wird berechnet, indem man den aktuellen Messwert $x$ mit dem Dämpfungsgrad $w$ multipliziert. Dann wird der letzte gefilterte Wert $y_{n-1}$ mit $1 - w$ multipliziert und zu $x \cdot w$ addiert. Die Summe ergibt den neuen Wert $y_n$.\newline
+Dieser Filter heißt \texttt{exponentieller Filter}\cite{iir_filter_expo} und wurde gewählt, da dieser wenig rechenaufwändig ist.\newline
+
+Nachstehendes Listing (\ref{listing:iir_filter}) zeigt die Funktion, welche diesen Filter anwendet:\newline
+
+\begin{lstlisting}[caption={IIR-Filter Implementierung}, captionpos=b, label={listing:iir_filter},language=javascript, numbers=left,
+  stepnumber=1]
+function apply_filter_to_data(data_to_filter){
+  let w = 0.6;
+  let w_m1 = 1 - w;
+  let filtered_data = [];
+
+  for(let i = 0; i<data_to_filter.length; i++){
+      filtered_data[i] = w * data_to_filter[i] + w_m1 * last_filtered_data[i]
+  }
+  last_filtered_data = filtered_data;
+  return filtered_data;
+}
+\end{lstlisting}
+
+\section{Blog}
+\label{chap:blog}
+\responsible{Dominik Lovetinsky}
+In Kapitel \ref{sec:software_arch_2} wurde kurz erwähnt, dass den registrierten Nutzern ein Blog zur Verfügung gestellt wird. Zur Erklärung der relationalen Datenstruktur, siehe Kapitel \ref{sec:relations}.\newline
+Dieser Blog bietet folgende Funktionalitäten:\newline
+\begin{itemize}
+  \item Blogeinträge erstellen, bearbeiten und löschen
+  \item Blogeinträge speichern
+  \item Blogeinträge mit Votes beaufschlagen
+  \item Kommentare schreiben und editieren
+  \item Kommentare mit Votes beaufschlagen
+\end{itemize}
+
+Einige dieser Funktionalitäten wurden mittels \texttt{REST-Calls} realisiert, für nähere Informationen hierzu, vergleiche Kapitle \ref{ssec:blog_rest}.\newline
+
+\subsection{editor.md}
+\label{ssec:editor_md}
+
+Um Blogeinträge erstellen zu können, wurde auf den opens-ource \texttt{Markdown} - Editor von \texttt{editor.md}\cite{editormd} zurückgegriffen. Dieser bietet die Möglichkeit, mithilfe der Auszeichnungssprache \texttt{Markdown} \texttt{HTML}-Elemente zu erstellen.\newline
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=1\linewidth]{Images/editor.md.png}
+  \caption{Markdowneditor \texttt{editor.md}}
+\end{figure}
+
+Um diesen Editor auf der Website anzeigen zu lassen, muss folgender Javascript-Code ausgeführt werden:\newline
+\begin{lstlisting}[caption={editor.md - Deklaration}, captionpos=b, label={listing:new_editor}, language=javascript, numbers=left,
+  stepnumber=1]
+const new_post = editormd("new_post", {
+    width                : "100%",
+    height               : "100%",
+    path                 : "/webjars/editor.md/lib/",
+    theme                : localStorage.getItem("data-theme") === "dark" ? "dark" : "default",
+    editorTheme          : localStorage.getItem("data-theme") === "dark" ? "monokai" : "solarized",
+    previewTheme         : localStorage.getItem("data-theme") === "dark" ? "dark" : "default",
+    saveHTMLToTextarea   : true,
+    emoji                : true,
+    tex                  : true,
+    taskList             : true,
+    flowChart            : true,
+    sequenceDiagram      : true,
+    tocm                 : true,
+    tocDropdown          : true,
+    readOnly             : false,
+    markdown             : document.querySelector('#raw_content').value !== '' ? document.querySelector('#raw_content').value : "## Welcome to our small and geeky network! Enjoy it!",
+    onchange             : function () {
+        document.querySelector('#raw_content').value = this.getMarkdown();
+        document.querySelector('#rendered_content').value = this.getHTML();
+    }
+});
+\end{lstlisting}
+
+Dieses Listing (\ref{listing:new_editor}) zeigt einen Ausschnit aus dem HTML-Dokument\\ \texttt{src/main/resources/templates/blogForm.html}. Hier wird ein neuer Editor erstellt, welcher benötigt wird, um einen neuen Blogeintrag zu erstellen.\newline
+
+
+\subsection{API Key und REST}
+\label{ssec:blog_rest}
+
+In Kapitel \ref{chap:blog} wuren kurz erwähnt, dass für einige der Funktionalitäten, welche dieser Blog bietet, asynchrone \texttt{REST-Calls} gemacht werden müssen. \texttt{REST} steht für
+\texttt{Representational State Transfer} und ist im Grunde das HTTP-Protokoll, nur wird \texttt{REST} für Datenaustausch verwendet, und HTTP ist die Protokolldefinition für den Datenaustausch generell über das Internet.\newline
+
+Spring Boot, als auch Javascript bieten bereits etliche APIs um mit RESTful Services zu arbeiten. Bei Spring ist das Erstellen eines Rest-Controllers sehr ähnlich dem Erstellen
+eines normalen HTTP-Controllers: Die entsprechende Javaklasse muss mit \texttt{@RestController} annotiert werden. Folgendes Listing (\ref{listing:restcontroller_blog}) zeigt den erstellten Rest-Controller, welcher entwaige Funktionalitäten
+für den Blog bereitstellt:\newline
+
+\begin{lstlisting}[caption={Blog - REST API}, captionpos=b, label={listing:restcontroller_blog}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.controller.restController;
+
+import htlstp.diplomarbeit.binobo.controller.util.FlashMessage;
+import htlstp.diplomarbeit.binobo.model.*;
+import htlstp.diplomarbeit.binobo.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+@RestController
+@ResponseBody
+@RequestMapping(value = "/blog_rest_api")
+public class BlogRestAPI {
+
+    private final PostService postService;
+    private final UserService userService;
+    private final CommentService commentService;
+    private final SubCommentService subCommentService;
+    private final CategoryService categoryService;
+    private final BookmarkService bookmarkService;
+    private final VoteService voteService;
+
+    @Autowired
+    public BlogRestAPI(PostService postService,
+                        UserService userService,
+                        CommentService commentService,
+                        SubCommentService subCommentService,
+                        CategoryService categoryService,
+                        BookmarkService bookmarkService,
+                        VoteService voteService) {
+        this.postService = postService;
+        this.userService = userService;
+        this.commentService = commentService;
+        this.subCommentService = subCommentService;
+        this.categoryService = categoryService;
+        this.bookmarkService = bookmarkService;
+        this.voteService = voteService;
+    }
+
+    @PatchMapping(value = "/toggle_bookmark")
+    public ResponseEntity<FlashMessage> toggleBookmark(@RequestParam("post_id") Long post_id, @RequestParam("user_id") Long user_id, @RequestParam("api_key") String token){
+        User user = userService.findById(user_id);
+
+        if(Objects.equals(user.getApi_key().getToken(), token)) {
+            Iterable<Bookmark> bookmarks = bookmarkService.fetchAllBookmarksFromUser(user);
+            AtomicBoolean bookmark_exists = new AtomicBoolean(false);
+            bookmarks.forEach(bookmark -> {
+                if (Objects.equals(bookmark.getPost().getId(), post_id)){
+                    bookmarkService.deleteBookmark(bookmark);
+                    bookmark_exists.set(true);
+                }
+            });
+            if (!bookmark_exists.get()) {
+                Bookmark bookmark = new Bookmark();
+                bookmark.setPost(postService.findById(post_id));
+                bookmark.setUser(user);
+                bookmarkService.saveBookmark(bookmark);
+            }
+
+            return ResponseEntity.ok().body(
+                    new FlashMessage("Bookmark toggled!",
+                            FlashMessage.Status.SUCCESS));
+        }else {
+            return ResponseEntity.badRequest().body(
+                    new FlashMessage("Invalid API Key!",
+                            FlashMessage.Status.FAILURE));
+        }
+    }
+
+    // upvote post, down-vote post, remove vote from post
+
+    @PatchMapping(value = "/toggle_vote_for_post")
+    public ResponseEntity<FlashMessage> toggleVotePost(@RequestParam("post_id") Long post_id, @RequestParam("user_id") Long user_id, @RequestParam("action") String action, @RequestParam("api_key") String token) {
+        User user = userService.findById(user_id);
+        if(Objects.equals(user.getApi_key().getToken(), token)) {
+            Post post = postService.findById(post_id);
+            Vote vote = voteService.findByUserAndPost(user, post);
+
+            if (vote == null) {
+                Vote newVote = new Vote();
+                newVote.setIsUseful(Objects.equals(action, "up"));
+
+                newVote.setUser(user);
+                newVote.setPost(post);
+
+                voteService.save(newVote);
+            } else {
+                switch (action) {
+                    case "up": {
+                        if (vote.getIsUseful()) {
+                            vote.setPost(null);
+                            vote.setUser(null);
+                            // this is needed to disassociate the vote from the user and post
+                        } else {
+                            vote.setIsUseful(true);
+                        }
+                    } break;
+                    case "down": {
+                        if (!vote.getIsUseful()) {
+                            vote.setPost(null);
+                            vote.setUser(null);
+                        } else {
+                            vote.setIsUseful(false);
+                        }
+                    } break;
+                }
+                voteService.save(vote);
+                if(vote.getUser() == null && vote.getPost() == null) voteService.delete(vote);
+            }
+            return ResponseEntity.ok().body(
+                    new FlashMessage("Set Vote",
+                            FlashMessage.Status.SUCCESS));
+        }
+        return ResponseEntity.badRequest().body(
+                new FlashMessage("Invalid API Key!",
+                        FlashMessage.Status.FAILURE));
+    }
+}
+\end{lstlisting}
+
+Zu sehen ist, dass diese Klasse mit \texttt{@RequestMapping(value = "/blog$\_$rest$\_$api")} und \texttt{@ResponseBody} annotiert ist. Die Annotation \texttt{@RequestMapping} setzt einen URI-Prefix für alle
+in dieser Klasse definierten HTTP-Endpoints, der Prefix wurde durch \texttt{value = "/blog$\_$rest$\_$api"} definiert. Die zweite Annoation \texttt{@ResponsBody} gibt an, dass die Funktionen dieser Klasse einen Responsebody zurücksenden als Antwort.\newline
+
+Die erste Funktion \texttt{toggleBookmark} erstellt oder löscht ein Lesezeichen, welches von einem Nutzer bei einem Blogeintrag gesetzt wurde.\newline
+Die zweite Funktion in dieser Klasse \texttt{toggleVotePost} erstellt oder löscht ein sogenanntes \texttt{Vote} eines Blogeintrags. Anhand einses Votes kann man angeben, ob ein Blogeintrag
+nützlich ist, oder nicht. Eine ähnliche Funktion wurde auch für Kommentare erstellt, jedoch wurde diese in diesem Listing nicht eingefügt, da ansonsten das Listing zu lange wäre.\newline
+
+Im Funktionskopf bei der Parameterdeklaration kann man eine weitere Annotation erkennen \texttt{@RequestParam}, diese gibt an, dass ein in der Request-URL stehender Parameter an diesen Parameter beim Aufruf übergeben werden soll. Durch die
+Übergabe eines Parameters an die Annotation kann man den Namen des URL-Parameters definieren.\newline
+
+\textbf{API Key}
+
+Der \texttt{API Key} ist eine 128-Bit \texttt{UUID} (Universally Unique Identifier). Jeder der registrierten Nutzer bekommt jedes mal wenn sich dieser einloggt, einen neuen zufällig generierten Schlüssel zugewiesen, um größtmögliche Sicherheit der API gewährleisten zu können.\newline
+
+
+\textbf{Javascript AJAX}
+
+\texttt{AJAX}\cite{ajax} steht für \texttt{Asynchronous JavaScript and XML} und wird einerseits für asynchrone REST-Calls verwendet. Um vom Browser aus mit der Blog-API kommunizieren zu können, wurde folgende Javascript-Funktion entwickelt:\newline
+\begin{lstlisting}[caption={AJAX Implementierung}, captionpos=b, label={listing:ajax_js}, language=javascript, numbers=left,
+  stepnumber=1]
+const voteComment = (node, comment_id, user_id, action) => {
+  let api_key = document.getElementById("api_key").valueOf().value;
+  let url = `${window.location.protocol}//${window.location.hostname}/blog_rest_api/toggle_vote_for_comment?comment_id=${comment_id}&user_id=${user_id}&api_key=${api_key}&action=${action}`;
+  $.ajax({
+      type:"Patch",
+      url:url,
+      success: function(response) {
+          let isUpVoted = document.getElementById('comment_upvote_' + comment_id).classList.contains('checked');
+          let isDownVoted = document.getElementById('comment_devote_' + comment_id).classList.contains('checked');
+          let comment_vote_counter = document.getElementById('comment_vote_count_' + comment_id);
+
+          let upvoteNode = document.getElementById('comment_upvote_' + comment_id);
+          let devoteNode = document.getElementById('comment_devote_' + comment_id);
+
+          if(isUpVoted && action === 'up') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) - 1) + "";
+              upvoteNode.classList.remove('checked');
+
+          } else if(isUpVoted && action === 'down') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) - 2) + "";
+              node.classList.remove('checked');
+              upvoteNode.classList.remove('checked');
+              devoteNode.classList.add('checked');
+
+          } else if(isDownVoted && action === 'up') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) + 2) + "";
+              upvoteNode.classList.add('checked');
+              devoteNode.classList.remove('checked');
+
+          }else if(isDownVoted && action === 'down') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) + 1) + "";
+              devoteNode.classList.remove('checked');
+
+          } else if(!isDownVoted && !isUpVoted && action === 'down') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) - 1) + "";
+              devoteNode.classList.add('checked');
+
+          } else if(!isDownVoted && !isUpVoted && action === 'up') {
+              comment_vote_counter.innerHTML = (Number.parseInt(comment_vote_counter.innerHTML) + 1) + "";
+              upvoteNode.classList.add('checked');
+          }
+      }
+  });
+};
+\end{lstlisting}
+
+Listing \ref{listing:ajax_js} zeigt die Implementierung der AJAX-API.\newline
+Die gezeigte \texttt{Pointer-Funktion} \texttt{voteComment} macht einen \texttt{Patch-Request} an den Server, welcher je nach aktuellen Standt des Votes an diesem Kommentar wird dieses
+entweder gelöscht, positiv oder negativ gewertet. Sobald der Response von dem Server kommt, wird in der Funktion \texttt{success} der AJAX-API je nach aktuellen Stand des Votes dieses abgeändert.\newline
+
+%%======================================================%%
+
+\chapter{Python Websocket-Server}
+\label{chap:py_websocket_server}
+
+Websockets sind eine Erweiterung von HTTP, welche es ermöglicht, aufgebaute Verbindungen beliebig lage aufrecht zu erhalten. Um des Server mitzuteilen, dass man seine Verbindung \texttt{upgraden} will, wird folgender Request - Header an den Server geschickt\cite{ws_protocol}:\newline
+
+\begin{lstlisting}[caption={HTTP-Header für Websocket-Upgrade}, captionpos=b, label={listing:http_upgrade}]
+GET / HTTP/1.1
+Host: emuesp32.binobo.io
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Origin: http://example.com
+Sec-WebSocket-Protocol: /
+Sec-WebSocket-Version: 13
+\end{lstlisting}
+
+Wenn dieser Request akzeptiert wurde, kommt folgender Response:\newline
+
+\begin{lstlisting}[caption={Respone um auf Websockets-Protokoll zu wechseln}, captionpos=b, label={listing:http_upgrade_response}]
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+Sec-WebSocket-Protocol: /
+\end{lstlisting}
+
+Der Python Websocketserver diente als Schnittstelle zwischen dem Browser und dem ESP32. Dieser ermöglicht es, eine Websocketverbindungen zwischen diesen beiden Clienten aufzubauen.\newline
+Dieser Server wurde benötigt, um einen möglichst echtzeitnahen Datentransfer zu ermöglichen.\newline
+
+Dieser Server wurde mithilfe der Python-Library \texttt{websockets}\cite{websockets_library} entwickelt.\newline
+So wie die Serversoftware, ist auch dieser Teil des Projekts als \texttt{open-source} - Software auf Github zu finden:\newline
+
+\url{https://github.com/psykovski-extended/binobo_websocket_server.git}\newline
+
+Python wurde verwendet, um den den Datenaustausch zwischen dem ESP32 um dem Browser so unkompliziert wie möglich zu gestalten. Aufgrund dessen, das die Programmiersprache von Client und Server die selbe ist,
+weiß man genau in welchen Format die Daten ankomment und kann diese unkompliziert weiterverarbeiten.\newline
+
+\section{Sourcecode}
+
+Nachstehendes Listing (\ref{listing:ws_source}) zeigt der Sourcecode des Webservers:\newline
+
+\begin{lstlisting}[caption={Websocketserver Sourcecode}, captionpos=b, label={listing:ws_source}, language=python, morekeywords={async, await, with, False, True, None}, numbers=left,
+  stepnumber=1]
+import asyncio
+import websockets
+import socket
+
+receiver_clients = {}
+
+
+async def handle_receiver_clients(ws_client, message):
+    token = ws_client.path.split('/')[-1]
+    if message == "close session":
+        for client_index in range(len(receiver_clients[token])):
+            if ws_client == receiver_clients[token][client_index]:
+                del receiver_clients[token][client_index]
+                break
+    else:
+        if token in receiver_clients.keys():
+            receiver_clients[token].append(ws_client)
+        else:
+            receiver_clients[token] = [ws_client]
+        await ws_client.send(str({'STATE': 'OK'}))
+    print(receiver_clients)
+
+
+async def retrieve_data(websocket, path):
+    if websocket.path != '/':
+        async for message in websocket:
+            await handle_receiver_clients(websocket, message)
+    else:
+        async for message in websocket:
+            data = eval(message)
+            try:
+                token = data[0]
+                robo_data = data[1]
+                clients_to_delete = []
+                for client_index in range(len(receiver_clients[token])):
+                    try:
+                        await receiver_clients[token][client_index].send(str(robo_data))
+                    except Exception as exc:
+                        print('error occurred: ' + str(exc))
+                        clients_to_delete.append([client_index])
+                clients_to_delete.reverse()
+                for i in clients_to_delete:
+                    del receiver_clients[token][i]
+            except Exception as exc:
+                await websocket.send(str({'Error': str(exc)}))
+
+
+async def main():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.connect(("8.8.8.8", 80))
+    ip = sock.getsockname()[0]
+    print("Websocket Server running on:\n" + ip + ":8080")
+    async with websockets.serve(retrieve_data, ip, 8080, ping_interval=None, ping_timeout=None):
+        await asyncio.Future()  # run forever
+
+
+asyncio.run(main())
+\end{lstlisting}
+
+In Listing \ref{listing:ws_source} erkennt man von Zeile 1 bis 3 folgende Imports:\newline
+\begin{enumerate}
+  \item \texttt{asyncio}\cite{asyncio} - Aktiviert die Unterstützung von Asynchronen Tasks
+  \item \texttt{websockets}\cite{websockets_library} - Benötigt um den Websocketserver aufzusetzten
+  \item \texttt{socket}\cite{socket} - Benötigt um die Lokale-IP Adresse herauszufinden
+\end{enumerate}
+
+Die Python-Library \texttt{websockets} unterstützt asynchrones Programmieren, weswegen \texttt{asyncio} importiert wurde. Hierdurch wird die Softwarearchitektur \texttt{non-blocking}
+und \texttt{event-driven}. Dies ist hilfreich, sollten mehrere Clienten verbunden sein.\newline
+
+Auf Zeile 5 erkennt man die Deklaration des Python-Dictionaries \texttt{receiver$\_$clients}. Diese Variable wird benötigt, um die entsprechenden Empfänger je nach Token zu sortieren, um diese dann einfacher dem ESP32 Client zuordnen zu können.\newline
+
+Die Funktion \texttt{handle$\_$receiver$\_$clients} fügt diesem Buffer neue Clienten hinzu oder löscht diese, wenn der entsprechende Nutzer die Verbindung trennen will. Ebenfalls ist auf Zeile \texttt{17} \& \texttt{19} erkennbar, dass nicht bloß der Client
+dem Buffer hinzugefügt wird, sondern dass eine \texttt{Python-Liste} aus Clienten angefügt wird. Dies wird gemacht, um zu ermöglichen, dass mehrere Clienten mit einem ESP32 verbunden sein können.\newline
+Sollte ein Client eine Nachricht mit \texttt{"close session"} als Inhalt dem Websocketserver senden, wird die Referenz dieses Clients gelöscht (Zeile \texttt{13}) und die Verbindung geschlossen.\newline
+
+Damit die Software erkennt, welcher Client ein Empfänger ist, wurde folgendes definiert:\newline
+
+\textbf{Jeder Client, dessen \texttt{Request-URI} ungleich der \texttt{Root-URI /} ist, wird als Empfänger eingestuft, der entsprechende Token soll als letzter Unterpfad der URL angegeben werden.}\newline
+
+Die \texttt{if-Abfrage} auf Zeile 25 realisiert diese Definition.\newline
+
+Sollten jedoch Daten von einem Sender-Client kommen (dem ESP32, ab Zeile 28), so werden diese Daten entsprechend verarbeitet. Zuerst wird der empfangene \texttt{String} mithilfe der Python-Funktion \texttt{eval}
+(Zeile 30) evaluiert, der Rückgabewert von diesem funktionsaufruf is eine Python-Liste mit folgendem Datenformat:\newline
+
+\begin{lstlisting}[caption={Datenübertragungsprotokoll - Datenformat}, captionpos=b, label={listing:data_protocol}]
+  data = [128-Bit UUID, [[double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double], [...], ...]]
+\end{lstlisting}
+
+Zeile 32 \& 33 filtern zuerst den Token aus dieser Liste heraus und dann die Daten zum weiterleiten.\newline
+
+Auf Zeile 34 wird eine neue Liste definiert: \texttt{clients$\_$to$\_$delete}. Diese Liste wird benötigt, um die Indizes derer Client zwischenzuspeichern, bei welchen beim senden der Daten ein Fehler aufgetreten ist.
+Da hier dann davon ausgegangen wird, dass die Verbindung nicht mehr aufrecht ist oder ein anderes Problem aufgetreten ist, wird diese Referenz gelöscht, Zeile 42 \& 43.\newline
+
+Da durch das Löschen aus dieser Liste sich die jeweiligen Indizes der anderen gespeicherten Referenzen verändern würden  (da sich die Größe der Liste ändert), wird auf Zeile 41 die Liste \texttt{clients$\_$to$\_$delete} einfach ungekehrt.
+Da sich die Indizes nur der darüberliegenden Elemente verändert.\newline
+
+Auf Zeile 53 wird der Websocketserver gestartet mit der Lokalen-IP Adresse des aktuellen Rechners. Die IP-Adresse wird auf Zeile 49 - 51 ermittelt.\newline
+
+%%======================================================%%
+
+\chapter{Micropython Firmware}
+\label{chap:firmware}
+
+\texttt{Micropython}\cite{micropython} ist ein CPython-Derivat, welches speziell für das Programmieren auf \texttt{$\mu$Cs} entwickelt wurde. Micropython ist ebenfalls als open-source Software, lizensiert unter der MIT-Lizenz,
+frei im Internet erhältlich.\newline
+
+Als Referenz und Nachschlagewerk gibt es im Internet, neben dem Github-Repository, eine offizielle Micropython-Homepage, auf welcher ausführlich erklärt wird, wie die jeweilgen Libraries
+aufgebaut sind und wie man diesem am besten anwendet:\newline
+
+\url{https://micropython.org}\newline
+
+Nachstehender Link verweist auf das entsprechende Github-Repository der für dieses Projekt entwickelten Firmware:\newline
+
+\url{https://github.com/psykovski-extended/binobo_firmware}
+
+\section{Sourcecode}
+
+Nachstehende Listings zeigen den Sourcecode der Firmware, aufgeteilt in kleinere Portionen, um Übersichtlichkeit zu wahren:\newline
+\begin{lstlisting}[caption={Firmware: Imports}, captionpos=b, label={listing:firm_imports}, language=python, morekeywords={async, await, as}, numbers=left,
+  stepnumber=1]
+import time
+import network
+import uwebsockets.client
+import urequests
+import _thread
+import ujson
+import os
+
+try:
+    import asyncio as uasyncio
+except ImportError:
+    import uasyncio
+from machine import ADC, Pin, Timer
+\end{lstlisting}
+
+Zu sehen sind hier (Listing \ref{listing:firm_imports}) die verwendeten \texttt{Micropython-Libraries}, sowie die Drittanbieter-Library \texttt{uwebsockets}\cite{uwebsocket}. Nachstehender Link verweist auf das originale Github-Repository des Entwicklers dieser
+Library:\newline
+
+\url{https://github.com/danni/uwebsockets.git}\newline
+
+Diese Library ist als open-source Software unter der MIT-Lizenz verfügbar.\newline
+
+\begin{lstlisting}[caption={Firmware: Multiplexer- und Iterator-Objekt}, captionpos=b, label={listing:multiplexer_class}, language=python, morekeywords={async, await, False, True, None}, numbers=left,
+  stepnumber=1]
+class Multiplexer:
+  def __init__(self, pin1, pin2, pin3, pin4, a_readable: ADC, a_channels, enable: Pin):
+      """
+      Represents the CD74HCT4067 16 Channel Analogue Multiplexer, with 4 digital pins to select the analogue channel
+      to be read.
+
+      :param pin1: First digital Pin, should not be null.
+      :param pin2: Second digital Pin, can be null.
+      :param pin3: Third digital Pin, can be null.
+      :param pin4: Fourth digital Pin, can be null.
+      :param a_readable: Signal from multiplexed channel
+      :param a_channels: amount of analogue channels that are connected to the board
+      :param enable: Enable-Pin
+      """
+      self.pins = []
+
+      if pin1 is not None:
+          self.pins.append(pin1)
+      if pin2 is not None:
+          self.pins.append(pin2)
+      if pin3 is not None:
+          self.pins.append(pin3)
+      if pin4 is not None:
+          self.pins.append(pin4)
+
+      self.enable = enable  # inverted
+      self.a_readable = a_readable
+      self.a_readable.atten(ADC.ATTN_11DB)
+      self.a_readable.width(ADC.WIDTH_12BIT)
+
+      self.len_pins = len(self.pins)
+
+      self.a_channels = a_channels
+
+      self.enable_()
+
+  def enable_(self):
+      """
+      Enables the board
+      """
+      self.enable.off()
+
+  def disable(self):
+      """
+      Disables the board
+      """
+      self.enable.on()
+
+  def map_nibble_to_pins(self, nibble):
+      """
+      Maps a given 4-bit value to the multiplexer-pins
+
+      :param nibble: Nibble to be mapped --> f.e.: 0b0101 - S3 = 0, S2 = 1, S1 = 0, S0 = 1
+      """
+      if nibble > 15:
+          raise ValueError(
+              "There are not more than 16 channels per Multiplexer (0 to 15)! Pared value: " + str(nibble))
+
+      for i in range(self.len_pins):
+          self.pins[i].value(nibble & 0b0001)
+          nibble >>= 1
+
+  def read_all(self):
+      """
+      Reads all channels connected to the multiplexer
+      :return: Returns an array of the retrieved values, in raw format
+      """
+      res = []
+      for i in range(self.a_channels):
+          self.map_nibble_to_pins(i)
+          res.append(self.a_readable.read())
+      return res
+
+  def read_one(self, ch):
+      """
+      Reads one channel connected to the multiplexer and returns teh retrieved value
+      :param ch: Channel to be read --> channel counting begins at 0!
+      :return: returns the retrieved value
+      """
+      self.map_nibble_to_pins(ch)
+      res = self.a_readable.read()
+      return res
+
+
+class ADCIter:
+  def __init__(self, *multiplexer: Multiplexer):
+      """
+      Creates a kind-of Iterator, where the objects itself is iterating over the parsed multiplexers, so there is no
+      need to iterate over it with calling iter(obj)
+      :param multiplexer: Multiplexer-Objects to iterate over
+      """
+      self.multiplexer = multiplexer
+      self.a_ch = []
+      for i in self.multiplexer:
+          self.a_ch.append(i.a_channels)
+
+  def retrieve_data_raw(self):
+      """
+      Reads all analogue channels and converts the result to a 1D-List, where the items are ordered by the order the
+      of the parsed multiplexer and chronologically by the number of the pins on the multiplexer board
+      :return: 1D-List of the retrieved analogue values
+      """
+      res = []
+      for multi in self.multiplexer:
+          for i in multi.read_all():
+              res.append(i)
+      return res
+\end{lstlisting}
+
+Da sich Listing \ref{listing:multiplexer_class} durch Kommentare selbst erklärt, wir an dieser Stelle auf diese verwiesen.\newline
+
+\begin{lstlisting}[caption={Firmware: Globale Variablen}, captionpos=b, label={listing:globals}, language=python, morekeywords={async, await, False, True, None}, numbers=left,
+  stepnumber=1]
+# data buffer
+data = []
+# vector, storing zero position
+zero_pos = []
+# indicates that the iteration for data-retrieving is done or still ongoing
+iteration_done = False
+# token to identify the connected user
+token = ""
+# wifi-ssid
+ssid = ""
+# wifi-password
+password = ""
+# websocket client object
+ws = None
+# mechanical degree of freedom
+mdof = 340
+# factor for data conversion
+f_rc = mdof / 4095
+# multiplexer 1
+multi1 = Multiplexer(Pin(25, Pin.OUT), Pin(33, Pin.OUT), Pin(32, Pin.OUT), Pin(12, Pin.OUT), ADC(Pin(34)), 12,
+                      Pin(26, Pin.OUT))
+# multiplexer 2
+multi2 = Multiplexer(Pin(23, Pin.OUT), Pin(22, Pin.OUT), Pin(21, Pin.OUT), None, ADC(Pin(35)), 10, Pin(5, Pin.OUT))
+# ADCIter obj
+adc_iter = ADCIter(multi1, multi2)
+\end{lstlisting}
+
+In Listing \ref{listing:globals} sind die global deklarierten Variablen und Objekte zu sehen.\newline
+
+\begin{lstlisting}[caption={Firmware: WIFI-Connect Routine}, captionpos=b, label={listing:wifi_connect}, language=python, morekeywords={async, await, False, True, None}, numbers=left,
+  stepnumber=1]
+def connect_to_wifi(ssid="", pw=""):
+  """
+  Tries to establish a connection to a wifi
+  :param ssid: SSID of the wifi to connect to
+  :param pw: Password of the wifi to connect to
+  :return: returns the wrapper object of the connection
+  """
+  sta_if = network.WLAN(network.STA_IF)
+  sta_if.active(True)
+
+  sta_if.connect(ssid, pw)
+  sta_if.config(reconnects=2)
+
+  while not sta_if.isconnected():
+      pass
+
+  if not sta_if.isconnected():
+      raise Exception("Could not connect to WIFI!")
+
+  return sta_if
+\end{lstlisting}
+
+Listing \ref{listing:wifi_connect} zeigt die Funktion \texttt{connect$\_$to$\_$wifi}, welche versucht eine Verbindung mit einem Netzwerk zu verbinden, mithilfe des Parameters \texttt{ssid} gibt man den
+Namen des gewünschten Netzwerks an, und mit \texttt{password} gibt man das Passwort dieses Netzwerks an.\newline
+Danach probiert diese Funktion sich zweimal mit dem Netzwerk zu verbinden, wenn beide Versuche scheitern, wird ein Fehler geworfen. Sollte das Verbindungaufbauen erfolgreich sein, wird eine
+Referenz auf diese Verbindung zurückgegeben.\newline
+
+\begin{lstlisting}[caption={Firmware: Datenkonvertierung}, captionpos=b, label={listing:data_conv}, language=python, morekeywords={async, await, False, True, None}, numbers=left,
+  stepnumber=1]
+def convert_retrieved_data(data_to_conv: list):
+  """
+  converts the retrieved data from an analogue value to degrees
+  :param data_to_conv: Data to be converted
+  :return:
+  """
+  for i in range(22):
+      data_to_conv[i] = data_to_conv[i] * f_rc - zero_pos[i]
+  return data_to_conv
+\end{lstlisting}
+
+Die Funktion \texttt{convert$\_$retrieved$\_$data} aus Listing \ref{listing:data_conv} konvertiert die aufgenommenen Werte zu Grad und gibt die Liste mit den neuen Werten zurück.\newline
+
+\begin{lstlisting}[caption={Firmware: Datenerfassung}, captionpos=b, label={listing:data_ret}, language=python, morekeywords={async, await, False, True, None}, numbers=left,
+  stepnumber=1]
+def retrieve_data():
+  """
+  retrieves data from all connected multiplexer boards and appends it to the data-buffer
+  """
+  global iteration_done, data
+  iteration_done = False
+  data.append(convert_retrieved_data(adc_iter.retrieve_data_raw()))
+  iteration_done = True
+
+  if len(data) > 10:
+      data = []
+\end{lstlisting}
+
+In der Funktion \texttt{retrieve$\_$data} aus Listing \ref{listing:data_ret} werden asynchron alle Spannungen, welche gerade an den Potentiometern anliegen, gemessen und an einen Datenpuffer angefügt.\newline
+
+\begin{lstlisting}[caption={Firmware: Datenveröffentlichung über eine Websocketverbindung}, captionpos=b, label={listing:data_pub}, language=python, morekeywords={async, await, None}, numbers=left,
+  stepnumber=1]
+async def publish_data():
+  """
+  Sends the buffered data to the websocket server over a websocket-connection
+  """
+  global data
+  while not iteration_done or len(data) < 3:
+      await uasyncio.sleep(0.001)
+  temp = data
+  data = []
+  try:
+      ws.send(str([token, temp]))
+  except:
+      connect_websocket()
+\end{lstlisting}
+
+Listing \ref{listing:data_pub} zeigt die Funktion \texttt{publish$\_$data}, welche die Daten über eine Websocketverbindung an \texttt{emuesp32.binobo.io} sendet.\newline
+
+\begin{lstlisting}[caption={Firmware: Asynchroner Funktionsaufruf von \texttt{publish$\_$data}}, captionpos=b, label={listing:data_pub_async}, language=python, morekeywords={async, await}, numbers=left,
+  stepnumber=1]
+async def async_data_publishing():
+  """
+  Endlessly publishes data over the websocket connection
+  """
+  while True:
+      await publish_data()
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Firmware: UART cmd-Reader}, captionpos=b, label={listing:uart_cmd_read}, language=python, morekeywords={async, await}, numbers=left,
+  stepnumber=1]
+async def uart_input_reader():
+  """
+  Reads commands retrieved over UART0 --> not fully implemented yet!
+  """
+  while True:
+      cmd = input()
+      # TODO: interpret command
+      print(cmd)
+\end{lstlisting}
+
+Die Funktion \texttt{uart$\_$input$\_$reader} aus Listing \ref{listing:uart_cmd_read} empängt dauerhaft und asynchron zum zweiten Thread des Prozessors des ESP32 UART-Daten, welche als Befehle
+interpretiert werden sollen. Dieses Feature ist jedoch noch nicht gänzlich implementiert.\newline
+
+\begin{lstlisting}[caption={Firmware: Thread-Routine zum Senden von Daten und UART-Daten empfangen}, captionpos=b, label={listing:uart_data}, language=python, morekeywords={async, await}, numbers=left,
+  stepnumber=1]
+def uart_data_thread_main():
+  """
+  Thread-routine, publishes data on separate thread to avoid blocking of data retrieving
+  This routine should als read uart-data to interpret commands received while runtime, but this feature is not implemented yet
+  """
+  event_loop = uasyncio.get_event_loop()
+  event_loop.create_task(async_data_publishing())
+  # event_loop.create_task(uart_input_reader())
+  event_loop.run_forever()
+\end{lstlisting}
+
+Die Funktion \texttt{uart$\_$data$\_$thread$\_$main} aus Listing \ref{listing:uart_data} ist die Thread-Routine des zweiten Threads. Diese Routine erfasst asynchron die Positionen der Potentiometer
+und sollte auch auf einem seperaten asynchronen Prozess UART-Daten empfangen und interpretieren, jedoch wie oben bereits kurz erwähnt, ist dieses Feature noch nicht vollständing implementiert.\newline
+Mithilfe des Funktionsaufrufes \texttt{event$\_$loop.run$\_$forever()} laufen die asynchronen Prozesse solange, bis man \texttt{event$\_$loop.stop()} aufruft, dies verhindert das vorzeitige Terminieren der asynchronen Routinen.\newline
+
+\begin{lstlisting}[caption={Firmware: Funktion zum Erstellen einer Websocketverbindung}, captionpos=b, label={listing:connect_ws}, language=python, morekeywords={async, await}, numbers=left,
+  stepnumber=1]
+def connect_websocket():
+  """
+  Tries to connect to 'ws://emuesp32.binobo.io' to establish a websocket connection
+  """
+  global ws
+  print("[ESP32]: Connecting to Websocket Server...")
+  try:
+      ws = uwebsockets.client.connect('ws://emuesp32.binobo.io')  #
+      print("[ESP32]: Connections successfully established!")
+  except:
+      print("[ESP32]: Couldn't connect to Websocket!")
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Firmware: Funktion zur Nullpunktbestimmung}, captionpos=b, label={listing:zero_pos_calib}, language=python, morekeywords={async, await}, numbers=left,
+  stepnumber=1]
+def calibrate():
+  """
+  Reads all channels to determine where the zero-position of the potentiometers are, needed to measure the positions
+  of the fingers
+  """
+  global zero_pos
+  print("[ESP32]: Calibration starts...")
+  input("[ESP32]: Zero Position --> Waiting for verification...\n")
+  zero_pos = adc_iter.retrieve_data_raw()
+
+  for i in range(len(zero_pos)):
+      zero_pos[i] = zero_pos[i] * f_rc
+
+  print("[ESP32]: Calibration done.")
+\end{lstlisting}
+
+In der Funktion \texttt{calibrate} aus Listing \ref{listing:zero_pos_calib} wird der verbundene Client dazu aufgefordert, die Nullposition der Potentiometer einzustellen. Eingestellt wird dies, indem man die entsprechende Hand auf eine flache
+Oberfläche legt. Sobald diese Werte erfasst wurden, werden diese umgerechnet zu Grad.\newline
+
+\begin{lstlisting}[caption={Firmware: Main-Funktion}, captionpos=b, label={listing:main}, language=python, morekeywords={async, await, with, None}, numbers=left,
+  stepnumber=1]
+def main():
+  global token, ssid, password, ws
+
+  input("Hit <enter> to start configuration...\n")
+
+  print("[ESP32]: Configuration starts...")
+
+  is_storage = "config.txt" in os.listdir()
+  use_storage = False
+
+  if is_storage:
+      with open("config.txt", "r") as config:
+          lines = config.readlines()
+          ssid = lines[0][:-1]
+          password = lines[1][:-1]
+          token = lines[2][:-1]
+          print("[1]" + ssid, "[2]" + password, "[3]" + token, sep="\n")
+      x = input("Use local stored config data? [y/n]:\n")
+      use_storage = x is "y"
+
+  connected = False
+  is_connection_error = False
+  while not connected:
+      if not use_storage or is_connection_error:
+          ssid = input("SSID:\n")
+          password = input("Password:\n")
+      try:
+          connect_to_wifi(ssid, password)
+          print("[ESP32]: Connection successfully established!")
+          connected = True
+      except:
+          is_connection_error = True
+          input("[ESP32]: Error occurred while connecting, please try again.")
+
+  if not use_storage:
+      token = input("Token:\n")
+
+  calibrate()
+  connect_websocket()
+
+  if not use_storage:
+      store_data = input("Store configuration data? [y/n]:\n") == "y"
+      if store_data:
+          with open("config.txt", "w") as config:
+              config.write(ssid + "\n" + password + "\n" + token + "\n")
+              print("[ESP32]: Config-Data stored!")
+
+  print("[ESP32]: Configuration done! Have fun!")
+
+  timer = Timer(0)
+  timer.init(period=33, mode=Timer.PERIODIC, callback=lambda t: retrieve_data())
+  _thread.start_new_thread(uart_data_thread_main, ())
+
+
+if __name__ == "__main__":
+  main()
+\end{lstlisting}
+
+Listing \ref{listing:main} zeigt die Main-Funktion der Firmware sowie dessen Aufruf. In dieser Funktion werden folgende Aufgaben abgearbeitet:\newline
+
+\begin{enumerate}
+  \item Filesystem scannen um gespeicherte Konfigurationsdaten zu finden
+  \item Den Client fragen, ob dieser die gespeicherten Daten verwenden möchte, sollten Daten am Gerät gespeichert sein
+  \item WIFI-Verbindung aufbauen
+  \item Client auffordern, seinen Token (128-Bit UUID) einzugeben
+  \item Nullposition der Potentiometer bestimmen
+  \item Verbindung zu Websocketserver aufbauen
+  \item Sollte der Nutzer neue Daten eingegeben haben, wird dieser gefragt, ob er die neuen Daten speichern will (alte Daten werden hierbei überschrieben)
+  \item Timer starten, welche mit einer Frequenz von 30Hz die Funktion \texttt{retrieve$\_$data}, aus Listing \ref{listing:data_ret}, aufruft
+  \item Thread starten, welche die Routine \texttt{uart$\_$data$\_$thread$\_$main} startet
+\end{enumerate}
+
+Nach dem erfolgreichem Abschließen aller dieser Aufgaben ist der Controller vollkommen einsatzbereit. Der Client ist dann in der Lage in einem beliebigen Webbrowser
+seine Handbewegungen über den Emulator (\url{https://www.binobo.io/emulator3D}) mitzuverfolgen.\newline
+
+%%======================================================%%
+
+\chapter{Android App}
+\responsible{Dominik Lovetinsky}
+
+Die Android Applikation bietet dem jeweiligen Client eine benutzerfreundliche Schnittstelle, um mit dem ESP32 über ein Smart-Phone zu kommunizieren.\newline
+Die Android-App wurde mithilfe von Java und der von Google bereitgestellten Android-API und dem dazugehörigem SDK entwickelt. Als IDE wurde \texttt{Android Studio}\cite{android_studio} verwendet.\newline
+
+Mithilfe eines OTG Kabels (Host-Mode), kann eine Verbindung zu dem entsprechendem \texttt{$\mu$C} hergesellt werden. Zu beachten ist hierbei, dass das Handy der Host sein muss.\newline
+
+Der vollständige Sourcecode ist auf folgendem Github-Repository zu finden:\newline
+
+\url{https://github.com/psykovski-extended/binobo_connector.git}\newline
+
+An dieser Stelle ist jedoch kurz zu erwähnen, dass die App zum aktuellem Stand nicht gänzlich fertig ist.\newline
+Dennoch ist es bereits möglich, sich mit dem ESP32 zu verbinden und soweit zu konfigurieren, dass dieser sich mit dem Websocketserver verbinden kann.\newline
+
+
+\section{Verwendete Libraries}
+
+Für dieses Projekt fand die USB-Serial Library von \texttt{mik3y} Anwendung. Folgendes Github-Repository enthält den gesamten Sourcecode, sowie eine Anleitung zur Einbindung dieser Library mithilfe von \texttt{Gradle}:\newline
+
+\url{https://github.com/mik3y/usb-serial-for-android.git}\newline
+
+Diese Library ist unter der \texttt{MIT-Lizenz} als open-source Software verfügbar.\newline
+
+\section{Funktionsweise}
+
+Der Programmfluss dieses Projektes wurde maßgeblich durch die Funktionsweise der Firmware bestimmt, da diese als Basis hierfür diente.\newline
+
+Zu Beginn wurden einige globale Variablen definiert, damit verschiedene Objekte im gesamten Classpath verfügbar sind:\newline
+
+\begin{lstlisting}[caption={Globale Variablen}, captionpos=b, label={listing:android_globals}, language=java, numbers=left,
+  stepnumber=1]
+package android.io.binobo.connector;
+
+import android.hardware.usb.UsbDeviceConnection;
+
+import com.hoho.android.usbserial.driver.UsbSerialDriver;
+import com.hoho.android.usbserial.driver.UsbSerialPort;
+import com.hoho.android.usbserial.util.SerialInputOutputManager;
+
+import java.util.Vector;
+
+public class Globals {
+
+    public static UsbSerialDriver usbSerialDriver;
+    public static UsbDeviceConnection connection;
+    public static UsbSerialPort port;
+    public static SerialInputOutputManager serialIOManager;
+    public static final Vector<String> uartData = new Vector<>();
+    public static Configuration.State configState = Configuration.State.UNKNOWN_STATE;
+    public static StringBuilder dataBuffer = new StringBuilder();
+    public static String SSID = "";
+    public static String PASSWORD = "";
+    public static String TOKEN = "";
+  
+}
+\end{lstlisting}
+
+
+Innerhalb der App konnte nur mithilfe des Outputs, welchen der ESP32 über den UART0-Port liefert, navigiert werden. Deswegen wurde, um das aktuelle State abzufragen,
+auf Java-Enumerations zurückgegriffen:\newline
+
+\begin{lstlisting}[caption={State-Enumeration Objekt}, captionpos=b, label={listing:android_state}, language=java, morekeywords={enum}, numbers=left,
+  stepnumber=1]
+package android.io.binobo.connector;
+
+public class Configuration {
+
+  public enum State {
+      HIT_ENTER_TO_START,
+      UNKNOWN_STATE,
+      CONFIG_START,
+      WIFI_DATA_VALID,
+      WIFI_DATA_INVALID,
+      TOKEN_VALID,
+      TOKEN_INVALID,
+      TOKEN_VALIDATING,
+      LOCAL_DATA_FOUND,
+      WIFI_CONFIG_SSID,
+      WIFI_CONFIG_PASSWORD,
+      TOKEN,
+      CALIBRATION,
+      CALIBRATION_ZERO_POS,
+      CALIBRATION_DONE,
+      WEB_SOCKET_CONNECTING,
+      WEB_SOCKET_CONNECTED,
+      WEB_SOCKET_COULD_NOT_CONNECT,
+      STORE_DATA,
+      DATA_STORED,
+      DONE
+  }
+
+  public static State getState (String state) {
+      switch (state) {
+          case "Hit <enter> to start configuration...": return State.HIT_ENTER_TO_START;
+          case "[ESP32]: Configuration starts...": return State.CONFIG_START;
+          case "Use local stored config data? [y/n]:": return State.LOCAL_DATA_FOUND;
+          case "SSID:": return State.WIFI_CONFIG_SSID;
+          case "Password:": return State.WIFI_CONFIG_PASSWORD;
+          case "Token:": return State.TOKEN;
+          case "[ESP32]: Connection successfully established!": return State.WIFI_DATA_VALID;
+          case "[ESP32]: Error occurred while connecting, please try again.": return State.WIFI_DATA_INVALID;
+          case "[ESP32]: Validating token...": return State.TOKEN_VALIDATING;
+          case "[ESP32]: Token valid.": return State.TOKEN_VALID;
+          case "[ESP32]: Token not valid, try again.": return State.TOKEN_INVALID;
+          case "[ESP32]: Calibration starts...": return State.CALIBRATION;
+          case "[ESP32]: Zero Position --> Waiting for verification...": return State.CALIBRATION_ZERO_POS;
+          case "[ESP32]: Calibration done.": return State.CALIBRATION_DONE;
+          case "[ESP32]: Connecting to Websocket Server...": return State.WEB_SOCKET_CONNECTING;
+          case "[ESP32]: Connections successfully established!": return State.WEB_SOCKET_CONNECTED;
+          case "[ESP32]: Couldn't connect to Websocket!": return State.WEB_SOCKET_COULD_NOT_CONNECT;
+          case "Store configuration data? [y/n]:": return State.STORE_DATA;
+          case "[ESP32]: Config-Data stored!": return State.DATA_STORED;
+          case "[ESP32]: Configuration done! Have fun!": return State.DONE;
+          default: return State.UNKNOWN_STATE;
+      }
+  }
+}
+\end{lstlisting}
+
+In Listing \ref{listing:android_state} ist die erstellte Enumeration, sowie die Statezuweiungsfunktion \texttt{getState} zu sehen.\newline
+
+Um serielle Daten asynchron zum Main-Thread empfangen zu können, um diesen nicht in seiner Funktiosweise zu blockieren, wurde ein sogenannter \texttt{Service} erstellt:\newline
+
+\begin{lstlisting}[caption={SerialService Klasse}, captionpos=b, label={listing:android_service}, language=java, numbers=left,
+  stepnumber=1]
+package android.io.binobo.connector;
+
+
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbManager;
+import android.os.Binder;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+
+import com.hoho.android.usbserial.driver.UsbSerialDriver;
+import com.hoho.android.usbserial.driver.UsbSerialPort;
+import com.hoho.android.usbserial.driver.UsbSerialProber;
+import com.hoho.android.usbserial.util.SerialInputOutputManager;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+public class SerialService extends Service implements SerialInputOutputManager.Listener {
+
+    class SerialBinder extends Binder {
+        SerialService getService() { return SerialService.this; }
+    }
+
+    private final Handler mainLooper;
+    private final IBinder binder;
+
+    public SerialService() {
+        mainLooper = new Handler(Looper.getMainLooper());
+        binder = new SerialBinder();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // Find all available drivers from attached devices.
+        UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
+        List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+        if (availableDrivers.isEmpty()) {
+            return super.onStartCommand(intent, flags, startId);
+        }
+
+        // Open a connection to the first available driver.
+        UsbSerialDriver driver = availableDrivers.get(0);
+        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+        if (connection == null) {
+            return super.onStartCommand(intent, flags, startId);
+        }
+
+        UsbSerialPort port = driver.getPorts().get(0); // Most devices have just one port (port 0)
+        try {
+            port.open(connection);
+            port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+
+            SerialInputOutputManager serialInputOutputManager = new SerialInputOutputManager(port, this);
+            serialInputOutputManager.start();
+
+            Toast.makeText(this, "Connection successfully established!", Toast.LENGTH_LONG).show();
+
+            Globals.connection = connection;
+            Globals.port = port;
+            Globals.usbSerialDriver = driver;
+            Globals.serialIOManager = serialInputOutputManager;
+        } catch (IOException e) {
+            Toast.makeText(this, "Error occurred!", Toast.LENGTH_LONG).show();
+        }
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onNewData(byte[] data) {
+        bufferData(data);
+    }
+
+    synchronized private void bufferData(byte[] data) {
+        String dataIn = new String(data);
+
+        for (char c : dataIn.toCharArray()) {
+            Globals.dataBuffer.append(c);
+
+            if (c == '\n'){
+                String dataAsString = Globals.dataBuffer.toString().trim();
+
+                Globals.configState = Configuration.getState(dataAsString);
+                Globals.uartData.add(dataAsString);
+
+                if (Globals.configState == Configuration.State.HIT_ENTER_TO_START) {
+                    try {
+                        Globals.port.write("\r".getBytes(StandardCharsets.UTF_8), 100);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (dataAsString.startsWith("[1]")) Globals.SSID = dataAsString.substring(3);
+                else if (dataAsString.startsWith("[2]")) Globals.PASSWORD = dataAsString.substring(3);
+                else if (dataAsString.startsWith("[3]")) Globals.TOKEN = dataAsString.substring(3);
+
+                Globals.dataBuffer = new StringBuilder();
+            }
+        }
+    }
+
+    @Override
+    public void onRunError(Exception e) {
+        stopSelf();
+    }
+}
+\end{lstlisting}
+
+
+Um einen Service zu erstellen, muss eine eigene Javaklasse erstellt werden, welche von \texttt{android.app.Service} erbt.\newline
+Anzumerken ist an dieser Stelle, dass auch hier das \texttt{DDD} Pattern angewendet wird, sowie eine Abwandlung des MVC - Designpatterns, genannt \texttt{MVP}\cite{mvp}.
+\texttt{MVP} steht für \texttt{Model - View - Presenter} und teilt ein Projekt, ähnlich wie bei Spring Boot, in drei abstrakte Schichten auf.
+Da jedoch bei einer Android Applikation keine HTTP-Requests eingehen, gibt es keine Controller-Schicht.\newline
+
+%%======================================================%%
+
+\chapter{Webhosting}
+\responsible{Dominik Lovetinsky}
+
+Um das entwickelte Projekt für die Welt zugänglich zu machen, mussten die entwickelten Server in World-Wide-Web verfügbar gemacht werden. Dies ist möglich, indem man eine Domain erwirbt und diese auf die IP-Adresse des entwickelten Servers verweist.\newline
+Nachstehende Kapitel \ref{sec:ddns} bis \ref{sec:proxy} erläutern das Vorgehen, um Software im Internet verfügbar zu machen.\newline
+
+\section{DDNS und Domainname}
+\label{sec:ddns}
+
+\texttt{DDNS} steht für \texttt{Dynamic-Domain-Name-Service}. Ähnlich wie ein DNS ist DDNS eine Möglichkeit um einen Computer in Internet zu lokalisieren um mit diesem zu kommunizieren. Anders als bei DNS, wo eine statische IP-Adresse benötigt wird, kann bei DDNS die entsprechende IP-Eintrag am DNS-Server dynamisch geändert werden. Dies ermöglicht es, Server an Orten zu hosten, welche keine statische IP-Adresse besitzen.\newline
+Für dieses Projekt wurde der DDNS-Anbieter \texttt{Dynu} verwendet. Dynu bietet die entsprechenden Funktionalitäten kostenlos an.\newline
+Bei der Wahl des DDNS-Anbieters wurde auch darauf geachtet, dass man eine erworbene Domain zu diesem transferieren kann.\newline
+
+Für dieses Projekt wurde folgende Domain erworben:\newline
+
+\texttt{binobo.io}\newline
+
+Erworben wurde diese Domain über den Domain-Anbieter \url{https://www.name.com}.\newline
+
+Um diese Domain über den DDNS-Anbieter verwalten zu lassen, müssen für diese Domain auf \texttt{name.com} die Domain-Server von \texttt{Dynu} angegeben werden. Die entsprechenden Domain-Server von \texttt{Dynu} findet man unter folgender URL:\newline
+
+\url{https://www.dynu.com/en-US/ControlPanel/DDNS}\newline
+
+Hier muss man dann die entsprechende Domain auswählen, und unter der Registerkarte \texttt{Configuration} sind diese Server gelistet.\newline
+
+
+\section{Docker}
+\label{sec:docker}
+
+Docker\cite{docker} wird verwendet, um Software zu containerisieren. Die Containerisierung von Software ermöglicht es, ein eigenes System (Linux) mit allen benötigten Abhängigkeiten und Konfigurationen zu entwerfen und kompakt von A nach B zu befördern. Weiters fällt die Konfiguration der Software - nach dem kreieren des Docker-Images - komplett weg. Danach kann das entsprechende Docker-Image mittels eines kurzen Befehls gestartet werden und bedarf keiner weiteren Konfiguration.\newline
+Weiters ermöglicht Docker sogenannte \texttt{Microservices} zu erstellen. \texttt{Microservices} sind Komponenten einer Softwarearchitektur, welche getrennt voneinander innerhalb verschiedener Docker-Containers gesartet werden. Jedoch können diese Container trotz ihrer virtuellen Trennung miteinander über das TCP/IP und UDP Protokoll kommunizieren.\newline
+
+Für dieses Projekt wurden drei Docker-Container erstellt:\newline
+\begin{itemize}
+  \item PostgreSQL - Datenbank
+  \item Spring-Boot Webserver
+  \item Python Websocketserver
+\end{itemize}
+
+In Kapitel \ref{ssec:dockerfiles} \& \ref{ssec:docker-compose} ist die Konfiguration dieser Container zu sehen und wie diese mithilfe von \texttt{docker-compose} zu einem \texttt{Netzwerk} zusammengefasst wurden.\newline
+
+\subsection{Dockerfiles}
+\label{ssec:dockerfiles}
+
+Um einen Docker-Container zu erstellen, muss dieser konfiguriert werden. Auf \texttt{Docker Hub} gibt es bereits vorgefertigte Container für z.B.: Java, Python und PostgreSQL. Hierdurch fällt die Installation der benötigten Software innerhalb des jeweiligen Containers weg.\newline
+Nachstehendes Listing (\ref{listing:spring_boot_dockerfile}) zeigt das erstelle Dockerfile für den Spring-Boot Webserver:\newline
+
+\begin{lstlisting}[caption={dockerfile: Spring-Boot Webserver}, captionpos=b, label={listing:spring_boot_dockerfile},  numbers=left, stepnumber=1]
+  FROM openjdk:13-alpine
+  MAINTAINER binobo.io
+  ADD target/binobo-2.0-Alpha.jar binobo.jar
+  ENTRYPOINT ["java","-jar","binobo.jar"]
+\end{lstlisting}
+
+In Listing \ref{listing:spring_boot_dockerfile} wird ein Docker-Container, welcher von \texttt{openjdk:13-alpine} sämtliche Konfigurationen übernimmt, erstellt. Zeile 2-4 fügen weitere Konfigurationen zu diesem Container hinzu.\newline
+
+Für den Python-Websocketserver wurde ebenfalls ein Docker-Container erstellt, welche als Basis das Docker-Image \texttt{python:3.9} verwendet:\newline
+\begin{lstlisting}[caption={dockerfile: Python Websocketserver}, captionpos=b, label={listing:py_wsserver_dockerfile},  numbers=left, stepnumber=1]
+  FROM python:3.9
+  ADD socket_server.py server.py
+  RUN pip install websockets
+  EXPOSE 8080
+  CMD ["python", "-u", "server.py"]
+\end{lstlisting}
+
+In Listing \ref{listing:py_wsserver_dockerfile} auf Zeile 2 wird das Python-Sript, welches der Websocketserver erstellt, in den Docker-Container kopiert. Zeile 3 installiert die benötigte Python-Libray. Mit Zeile 4 wird der Port 8080 von diesem Image freigegeben und mit Zeile 5 wird das entsprechende Python-Skript gestartet.\newline
+
+Weiters wurde noch ein PostgreSQL Container erstellt, jedoch benötigt man hierfür kein eigenes Dockerfile. Dieser wird innerhalb eines \texttt{docker-compose.yml} - Files definiert - siehe Kapitel \ref{ssec:docker-compose}.\newline
+
+\subsection{docker-compose}
+\label{ssec:docker-compose}
+
+Um die erstellten Docker-Container zu einem Netzwerk zusammenzufassen, bietet Docker das \texttt{CLI} mit Namen \texttt{docker-compose}\cite{docker_compose} an. Hiermit ist es möglich, über eine YAML-Konfigurationsdatei mit dem Namen \texttt{docker-compose.yml} mehrere Microservices über einen Befehl zu starten.\newline
+
+Nachstehendes Listing zeigt das entworfene \texttt{docker-compose.yml} - File dieses Projekts:\newline
+
+\begin{lstlisting}[caption={docker-compose.yml}, captionpos=b, label={listing:docker_compose_file},  numbers=left, stepnumber=1]
+  version: '3.8'
+  services:
+    app:
+      container_name: binobo_server
+      image: 'lovetinsky99/binobo_server:latest'
+      build: ./
+      ports:
+        - "80:80"
+      depends_on:
+        - binobo_database
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://binobo_database:5432/binobo_db
+        - SPRING_DATASOURCE_USERNAME=postgres
+        - SPRING_DATASOURCE_PASSWORD=password
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    websocket_server:
+      container_name: binobo_websocket_server
+      image: 'lovetinsky99/binobo_websocket_server:latest'
+      ports:
+        - "8080:8080"
+      depends_on:
+        - binobo_database
+    binobo_database:
+      image: postgres
+      container_name: binobo_database
+      ports:
+        - "3506:5432"
+      environment:
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=binobo_db
+\end{lstlisting}
+
+Um das \texttt{docker-compose.yml} - File zu starten, muss folgender Befehl ausgeführt werden in der Befehlszeile:\newline
+
+\begin{lstlisting}
+  docker-compose up --build
+\end{lstlisting}
+
+Mit diesem Befehl wird das entsprechende Docker-Netzwerk gestartet und gleichzeitig - sollten Anderungen an den Images vorgenommen worden sein - neu kreiert (angegeben durch den Parameter \texttt{--build}).\newline
+
+Zu beachten ist jedoch, dass diese Images nur für Prozessoren der Type \texttt{amd64} kompiliert wurden. Aus diesem Grund können diese Container nicht auf z.B. einem RaspberryPI gestartet werden, da dieser einen \texttt{AMR}-Prozessor besitzt.\newline
+
+
+\subsection{Docker Hub - Repositories}
+
+Docker bietet ebenfalls - ähnlich wit Github - ein Remote-Repository-Hub an, um die entsprechende Software auf externen Servern zu speichern und teilen.\newline
+Für dieses Projekt wurde zwei öffentliche Docker-Hub-Repositories erstellt:
+\begin{itemize}
+  \item \url{https://hub.docker.com/repository/docker/lovetinsky99/binobo_server}
+  \item \url{https://hub.docker.com/repository/docker/lovetinsky99/binobo_websocket_server}
+\end{itemize}
+
+Diese Docker-Images sind ebenfalls als open-source Software frei im Internet verfügbar.\newline
+
+\section{Reverse-Proxy}
+\label{proxy}
+
+Der Reverse-Proxy ist ein Proxy, welcher externen Computern den Zugriff auf netzwerkinterne Ressourcen gewährt. Anders als ein gewöhnlicher Forward-Proxy, welcher internen Computern den Zugriff auf ein externes Netzwerk gewährt - somit ist dieser atypisch und umgekehrt\cite{reverse_proxy}. Die Richtung des Aufrufes der Ressourcen ist daher umgekehrt.\newline
+Ein Reverse-Proxy wurde benötigt, um Anfragen, welche von außerhalb des Netzwerkes kommen, an den entsprechenden Client weiterzuleiten. Weiters ermöglicht solch ein Proxy
+die Erstellung von \texttt{Subdomains} - vergleiche Kapitel \ref{ssec:nginx}
+
+Nachstehende Abbildung (\ref{fig:reverse_proxy}) zeigt die Aufrufskette mit einem Reverse-Proxy, welche für dieses Projekt realisiert wurde:\newline
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{Images/reverse_proxy.png}
+  \caption{Reverse-Proxy}
+  \label{fig:reverse_proxy}
+\end{figure}
+
+Sobald eine Anfrage aus dem Internet kommt, nimmt diese der Reverse-Proxy entgegen und filtert die entpsrechende Ziel-Domain dieser Anfrage. Sollte diese Domain existieren, wird der Request weitergeleitet, andernfalls schlägt die Anfrage fehl.\newline
+
+
+\subsection{nginx}
+\label{ssec:nginx}
+
+\texttt{nginx}\cite{nginx} ist ein Reverse-Proxy, mit welchen man Client-Server Verbindungen verwalten kann. Mit dieser Software ist es ebenfalls möglich Subdomains aus Client-Requests zu filtern und entsprechend weiterzuleiten.\newline
+Der Reverse-Proxy wurde auf einem \texttt{MSI} - Rechner aufgesetzt, auf welchem \texttt{Ubuntu 20.04} läuft. Durch folgenden Befehl kann \texttt{nginx} installiert werden:\newline
+
+\begin{lstlisting}
+  sudo apt install nginx nginx-extras
+\end{lstlisting}
+
+Um den Reverse-Proxy zu konfigurieren, muss man in des entsprechende Verzeichnis wechslen. Folgender Befehl wechselt in dieses Verzeichnis:\newline
+
+\begin{lstlisting}
+  cd /etc/nginx/sites-available
+\end{lstlisting}
+
+Innerhalb dieses Verzeichnisses muss ein File mit den entsprechenden Konfigurationen beaufschlagt werden:\newline
+
+\begin{lstlisting}
+  sudo nano reverse-proxy.conf
+\end{lstlisting}
+
+Innerhalb des Files \texttt{reverse-proxy.conf} müssen dann die entsprechenden Zeilen hinzugefügt werden. Aus sicherheitstechnischen Gründen wird jedoch die erstellte Konfigurationsdatei nicht gelistet. Dies wird nicht gemacht, da in diesem File das SSL-Zertifikat angeführt wird und die entpsrechenden IP-Adressen der etwaigen Hosts.\newline
+Nachstehendes Listing zeigt ein Beispiel einer solchen Konfigurationsdatei:\newline
+
+\begin{lstlisting}[caption={reverse-proxy.conf}, captionpos=b, label={listing:rev_proxy_conf},  numbers=left, stepnumber=1]
+  server {
+      server_name binobo.io;
+      location / {
+          proxy_pass http://192.168.0.4:8080
+      }
+  }
+  server {
+      server_name emulator.binobo.io; # py-websocketserver domain
+      location / {
+          proxy_pass http://192.168.0.5:8081
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "Upgrade";
+          proxy_set_header Host $host;
+      }
+  }
+  server {
+    server_name emuesp32.binobo.io; # py-websocketserver endpoint for esp32
+    location / {
+        proxy_pass http://192.168.0.5:8082
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+    }
+}
+\end{lstlisting}
+
+Anzumerken ist an dieser Stelle, dass tatsächlich zwei Websocket-Endpoints erstellt wurden. Dies musste getan werden, da der ESP32 nicht über verschlüsselte Websocketverbindungen kommunizieren kann.\newline
+
+In Abb. \ref{fig:reverse_proxy} ist die Aufrufskette über einen Reverse-Proxy zu sehen. Dieser nimmt die Anfragen von Clienten stellvertretend an und sendet die entsprechenden Ergebnisse für den jeweiligen Server zurück zum Client. An dieser Stelle ist anzumerken, dass jeder Request vor dem Reverse-Proxy, welche von außerhalb kommt, mittels SSL verschlüsselt ist - außer die Domain \texttt{emuesp32.binobo.io}.\newline
+
+\subsection{certbot}
+
+Der \texttt{certbot}\cite{certbot} stellt \texttt{self-signed} SSL Zertifikate aus. Die entsprechende Software kann über folgenden Befehl installiert werden:\newline
+
+\begin{lstlisting}
+  sudo apt install certbot python3-certbot-nginx
+\end{lstlisting}
+
+Nach der Installation kann mit folgendem Befehl die jeweilige Domain verschlüsselt werden:\newline
+
+\begin{lstlisting}
+  sudo certbot --nginx
+\end{lstlisting}
+
+Nach Ausführung dieses Befehls starte in der Konsole ein Dialog, welcher den Nutzer durch den Prozess der SLL-Zertifizierung führt.\newline
+
+Nach Abschluss dieses Dialogs muss der Reverse-Proxy neu gestartet werden:\newline
+
+\begin{lstlisting}
+  sudo nginx -s reload
+\end{lstlisting}
+
+%%======================================================%%
+\chapter{Setup-Anleitung}
+
+\section{Voraussetzungen}
+
+Um dieses Projekt wie in dieser Dukomentation beschrieben realisieren zu können, müssen gewisse Voraussetzungen erfüllt werden. Weiters muss man entsprechende Hardware besitzten, um unter anderem die
+Controller-Teile zu drucken:\newline
+
+\begin{itemize}
+  \item SLA-3D Drucker (z.B.: Anycubic)
+  \item UV-Licht härtendes Epoxidharz
+  \item ESP32
+  \item Reinraum-Handschuh
+  \item hochflexible Drähte
+  \item Mirco-USB Kabel
+  \item OTG-Kabel (Handy als Host, benötigt um über die App den Controller zu konfigurieren)
+\end{itemize}
+
+Für die Software müssen - je nach dem wie diese lokal gehostet werden soll - entsprechende Programme installiert werden:\newline
+
+\begin{itemize}
+  \item IDE mit Java-Support (IntelliJ, Eclipse, ...)
+  \item Docker
+  \item docker-compose
+  \item Thonny-IDE oder Mu Editor (für Micropython)
+\end{itemize}
+
+\section{Software}
+
+\subsection{ESP32 aufsetzen}
+
+Um die entwickelte Firmware auf den ESP32 laden zu können müssen folgende Arbeitsschritte ausgeführt werden:\newline
+\begin{enumerate}
+  \item Firmware herunterladen
+  \item Micropython-Firmware flashen mit \texttt{esptool.py}
+  \item \texttt{uwebsockets}-Library auf den ESP32 laden
+  \item Firmware aus Kapitel \ref{chap:firmware} auf den ESP32 laden
+\end{enumerate}
+
+Um die Firmware herunterzuladen, muss zuerst das Terminal gestartet werden. Sobald dies gestartet ist, wird empfohlen mit \texttt{cd} in des gewünschte Verzeichnis zu navigieren. Dort angekommen muss folgender Befehl ausgeführt werden, um die Firmware herunterzuladen:\newline
+
+\begin{lstlisting}[caption={Firmware herunterladen mithilfe von git}, captionpos=b, label={listing:binobo_firmware_download}]
+  git clone https://github.com/psykovski-extended/binobo_firmware.git
+\end{lstlisting}
+
+Anzumerken ist hier, dass für den in Listing \ref{listing:binobo_firmware_download} ausgeführten Befehl \texttt{git} auf dem entsprechenden Rechner installiert sein muss.\newline
+
+Das erwähnte Python Programm \texttt{esptool.py} ist ein Python-Skript, welches von der Firma \texttt{Espressif} als open-source Software zur Verfügung gestellt wird. Dieses Skript wird verwendet, um mit dem ROM-Bootloader der \texttt{$\mu$Cs} von der Firma \texttt{Espressif} kommunizieren zu können. Folgendes Github-Repository enthält den Sourcecode dieses Skripts:\newline
+
+\url{https://github.com/espressif/esptool.git}\newline
+
+Mithilfe des Python-Package-Management-Tools \texttt{pip} kann man diese Library installieren:\newline
+
+\begin{lstlisting}
+pip install esptool
+\end{lstlisting}
+
+Um entwaige Files auf den ESP32 lden zu können, bietet sich ein weiteres Python-Skript der Firma \texttt{adafruit} an, welches ebenfalls über \texttt{pip} installiert werden kann:\newline
+
+\begin{lstlisting}
+pip install adafruit-ampy
+\end{lstlisting}
+
+Die aktuelle Micropython-Firmware findet man unter folgendem Link:\newline
+
+\url{https://micropython.org/download/esp32/}\newline
+
+Bevor nun die Firmware geflasht werden kann, muss man den ROM-Speicher des ESP32 vollständig löschen, dies gelingt mit folgendem Befehl:\newline
+
+\begin{lstlisting}
+esptool.py --chip esp32 --port COM3 erase_flash
+\end{lstlisting}
+
+Danach kann man die entsprechende Firmware auf den ESP32 laden:\newline
+
+\begin{lstlisting}
+esptool.py --chip esp32 --port COM3 --baud 460800 write_flash -z 0x1000 esp32-20220117-v1.18.bin
+\end{lstlisting}
+
+Empfohlen ist, immer die aktuellste Version der Firmware zu verwenden. Weiters ist anzumerken, dass der richtige COM-Port angegeben werden muss. Um diesen ausfindig zu machen, kann man im Gerätemanager von Windows unter \texttt{Anschlüsse (COM \& LPT)} nachsehen:\newline
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{Images/geraete_manager_esp32_finden.png}
+  \caption{Geräte-Manager, COM-Port bestimmen}
+\end{figure}
+
+
+
+Mit folgendem Befehl wird die Library \texttt{uwebsockets}, auf den ESP32 geladen:\newline
+
+\begin{lstlisting}[caption={Flashen der \texttt{uwebsockets}-Library}, captionpos=b, label={listing:uws}]
+ampy --port COM3 mkdir uwebsockets && ampy --port COM3 put protocol.py uwebsockets/protocol.py && ampy --port COM3 put client.py uwebsockets/client.py
+\end{lstlisting}
+
+In Listing \ref{listing:uws} wird mithilfe von \texttt{ampy} ein Verzeichnis mit Namen \texttt{uwebsockets} erstellt. Danach wird das Skript \texttt{protocol.py} und \texttt{client.py} auf den Chip geladen. Anzugeben ist hier der entsprechende Port, die Aktion, welche man ausführen will (in diesem Fall: \texttt{put}), das File, welches hochgeladen werden soll, und als letzter Parameter muss man angeben, wohin das File gespeichert werden soll.\newline
+
+Sobald die oben genannten Schritte erfolgreich abgeschlossen wurden, kann nun die Firmware aus Kapitel \ref{chap:firmware} hochgeladen werden:\newline
+
+\begin{lstlisting}[caption={Flashen der Binobo-Firmware}, captionpos=b, label={listing:binobo_firmware}]
+ampy --port COM3 put firmware_v1_alpha.py boot.py
+\end{lstlisting}
+
+In Listing \ref{listing:binobo_firmware} wird die Binobo-Firmware auf den ESP32 geladen, hierbei wird die \texttt{boot.py} Datei überschrieben. Dies wird gemacht, damit das Skript nach dem Bootvorgang gestratet wird.\newline
+Sollte man nicht wollen, dass das Skript immer beim Bootvorgang gestartet wird, so kann man das Skript auch nur ausführen lassen auf dem ESP32:\newline
+
+\begin{lstlisting}[caption={Starten der Binobo-Firmware ohne Flashen}, captionpos=b, label={listing:binobo_firmware_start}]
+  ampy --port COM3 run firmware_v1_alpha.py
+\end{lstlisting}
+
+Hier (Listing \ref{listing:binobo_firmware_start}) wird das Skript auf den ESP32 geladen und gestartet. Es wird aber wieder gelöscht, sobald das Programm terminiert oder der ESP32 neu gestartet wird.\newline
+
+\subsection{Webserver als JAR lokal hosten}
+
+Um den Server vom Sourcecode heraus zu starten, muss zumal dieser von Github geklont werden. Der entsprechende Link ist in Kapitel \ref{chap:spring_boot_webserver} zu finden.\newline
+Als IDE wird die \texttt{IntelliJ} empfohlen. Jedoch bietet \texttt{VS-Code} ebenfalls den notwendigen Support.\newline
+
+
+Weiters muss \texttt{PostgreSQL} installiert werden. Ebenfalls ist es empfehlenswert die Software \texttt{pgAdmin 4} zu installieren.\newline
+
+Nach Installation von \texttt{PostgreSQL} und \texttt{pgAdmin 4} muss man eine Datenbank mit Namen \texttt{binobo$\_$db} erstellen. \texttt{pgAdmin} bietet hierfür entsprechende Funktionalität.\newline
+
+Um den Server nun lokal starten zu können, muss innerhalb des Projektordners ein \texttt{application.properties} - File erstellt werden. Dieses File muss in dem Verzeichnis \texttt{$\backslash src\backslash main\backslash resources\backslash$} gespeichert werden. Folgende Zeilen müssen eingefügt werden:\newline
+
+\begin{lstlisting}[caption={application.properties}, captionpos=b, label={listing:app_props},  numbers=left, stepnumber=1]
+# creates SPRING_SESSION db
+spring.session.store-type=jdbc
+spring.session.jdbc.initialize-schema=always
+
+# setup PostgreSQL Database
+spring.datasource.url=jdbc:postgresql://localhost:5432/binobo_db
+spring.datasource.username=postgres
+spring.datasource.password=<your-root-pw>
+spring.jpa.hibernate.ddl-auto=update
+# this can be set to false
+spring.jpa.show-sql=true
+
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL92Dialect
+
+# mail config for email-verification
+# here you can also change this to any other smtp server
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=your.email@something.co
+spring.mail.password=<your-pw>
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+\end{lstlisting}
+
+Zu beachten ist jedoch, dass einige Konfigurationen noch geändert werden müssen:\newline
+
+\begin{itemize}
+  \item Zeile 6: Port ändern bei bedarf
+  \item Zeile 7: \texttt{spring.datasource.username} auf den entsprechenden Username ändern
+  \item Zeile 8: \texttt{spring.datasource.password} auf das entsprechende Passwort ändern
+  \item Zeile 19: \texttt{spring.mail.username} auf ein existierendes Gmail-Konto ändern
+  \item Zeile 20: \texttt{spring.mail.password} auf das entsprechende Passwort des Gmail-Kontos ändern
+\end{itemize}
+
+Nachdem dieses File erstellt worden ist, kann der Server gestartet werden. Jedoch ist noch zu beachten, dass die Datenbank nocht nicht die notwendigen Tabelleneinträge enthält, welche für das Registrieren benötigt werden. Nachstehendes Listing (\ref{listing:data_sql}) zeigt die entsprechende Query, welche innerhalb der Datenbank \texttt{binobo$\_$db} ausgeführt werden soll:\newline
+
+\begin{lstlisting}[caption={data.sql - Initiale Datenbankeinträge}, captionpos=b, label={listing:data_sql}, language=sql, numbers=left, stepnumber=1]
+insert into role (name, id) values ('ROLE_USER', 1);
+insert into role (name, id) values ('ROLE_ADMIN', 2);
+insert into role (name, id) values ('ROLE_OPERATOR', 3);
+
+insert into category (name, color_code) values ('Program', '#403891');
+insert into category (name, color_code) values ('Mathematics', '#39568c');
+insert into category (name, color_code) values ('Troubleshooting', '#ff4c4c');
+insert into category (name, color_code) values ('Science', '#1f968b');
+insert into category (name, color_code) values ('Coding', '#73d055');
+insert into category (name, color_code) values ('Other', '#fde725');
+\end{lstlisting}
+
+Hiernach sollte der Server problemlos verwendet werden können!\newline
+
+\subsection{Websocketserver lokal hosten}
+
+Um den Websocketserver zu starten wird eine IDE mit Python-Support benötigt. Hier bietet sich entweder \texttt{PyCharm oder VS-Code} an. Hier muss ebenfalls wieder ein Repository geklont werden, welches in Kapitel \ref{chap:py_websocket_server} erwähnt worden ist.\newline
+
+Bevor dieser jedoch gestartet werden kann, muss die Python-Library \texttt{websockets} installiert werden:\newline
+
+\begin{lstlisting}
+  pip install websockets
+\end{lstlisting}
+
+Nach der erfolgreichen Installation dieser Library kann dieser Server ebenfalls gestartet werden.\newline
+
+\subsection{Server-Pool mit docker-compose lokal starten}
+\responsible{Dominik Lovetinsky}
+
+Um das Server-Pool als Docker-Netzwerk zu starten, wird vorausgesetzt, dass Docker sowie \texttt{docker-compose} installiert ist.\newline
+Sollten diese Programme installiert sein, muss innerhalb eines beliebeigen Ordners folgendes File mit Namen \texttt{docker-compose.yml} erstellt werden:\newline
+
+\begin{lstlisting}[caption={docker-compose.yml - Server-Pool als Docker-Netzwerk}, captionpos=b, label={listing:server_pool_docker_net}, numbers=left, stepnumber=1]
+  version: '3.9'
+  services:
+    app:
+      container_name: binobo_server
+      image: 'lovetinsky99/binobo_server:latest'
+      ports:
+        - "80:80"
+      depends_on:
+        - binobo_database
+      environment:
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://binobo_database:5432/binobo_db
+        - SPRING_DATASOURCE_USERNAME=some_username
+        - SPRING_DATASOURCE_PASSWORD=some_password
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    websocket_server:
+      container_name: binobo_websocket_server
+      image: 'lovetinsky99/binobo_websocket_server:latest'
+      ports:
+        - "8080:8080"
+      depends_on:
+        - binobo_database
+    binobo_database:
+      image: postgres
+      container_name: binobo_database
+      ports:
+        - "5432:5432"
+      environment:
+        - POSTGRES_PASSWORD=some_password
+        - POSTGRES_USER=some_username
+        - POSTGRES_DB=binobo_db
+\end{lstlisting}
+
+Nach der erstellung dieser Datei kann mithilfe folgendem Befehls das Netzwerk gestartet werden:\newline
+
+\begin{lstlisting}
+  docker-compose up
+\end{lstlisting}
+
+Nach dem Ausführen dieses Befehls ist der Server unter \url{http://localhost} erreichtbar.\pagebreak
+
+\section{Hardware}
+\responsible{Philipp Maschayechi}
+\input{Textparts/hardwaresetup.tex}
+
+\chapter{Ideensammlung zur Weiterentwicklung}
+\responsible{Dominik Lovetinsky \& Philipp Maschayechi}
+\section{Software}
+
+Das Projekt enthält zum aktuellem Stand zwar sämtliche Features, welche zu Beginn als Mindestmaß gesetzt worden waren, jedoch sind im Laufe der Entwicklung einige Feature-Wünsche aufgetaucht. Nachstehende Liste zeigt sämtliche Feature-Ideen, welche in Zukunft zu diesem Projekt hinzugefügt werden:\newline
+
+\begin{itemize}
+  \item \texttt{editor.md}-Plugin mit \texttt{editor.js} ersetzten
+  \item Öffentliche Ansicht eines Nutzerkontos
+  \item Persönliche Daten ändern können
+  \item Passwort vergessen - Knopf zu Login hinzufügen
+  \item OAuth2
+  \item Firebase Login
+  \item Neues Layout überlegen und mit React implementieren
+  \item Eigener Cloud-Server um Bilder hochzuladen
+  \item Searchbar für Blogeinträge
+  \item Tags für Blogeinträge
+  \item User blacklisten
+  \item Live-Chat bei Emulator hinzufügen
+  \item BeagleBone Blue statt ESP32 verwenden
+  \item Setup-Anleitung für Controller
+  \item Wählen zwischen BLE und Websocket Datenstreamen - Wenn BLE Verbindung, dann Nutzer fragen, ob diese Daten gebroadcastet werden sollen über eine Websocketverbindung
+  \item Unity WebGL
+  \item VR - Modus / Sterioskpoie-Modus
+  \item visuelles Motiontracking mit OpenCV
+\end{itemize}
+
+\section{Hardware}
+\begin{itemize}
+  \item BeagleBone Blue statt ESP32 verwenden
+  \item Steuerbare bionische Roboterhand konstruieren
+  \item Modell mit DMS
+  \item Eigene Platine planen, um Kabelmenge zu reduzieren
+  \item Verbesserte Handyhalterung
+  \item Überarbeitung der Modelle für erhöhte Messgenauigkeit
+\end{itemize}
+
+\appendix
+
+\chapter{Code Listings}
+
+\section{Spring Boot}
+
+\subsection{Spring Security}
+
+\begin{lstlisting}[caption={Spring Security - Konfiguration}, captionpos=b, label={listing:spring_sec_config}, language=java, numbers=left,
+  stepnumber=1]
+package htlstp.diplomarbeit.binobo.configurator;
+
+import htlstp.diplomarbeit.binobo.controller.util.FlashMessage;
+import htlstp.diplomarbeit.binobo.model.User;
+import htlstp.diplomarbeit.binobo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation
+            .authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation
+            .web.builders.HttpSecurity;
+import org.springframework.security.config.annotation
+            .web.builders.WebSecurity;
+import org.springframework.security.config.annotation
+            .web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation
+            .web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication
+            .AuthenticationFailureHandler;
+import org.springframework.security.web.authentication
+            .AuthenticationSuccessHandler;
+
+/**
+  * This class configures Spring's Security Plugin, telling it, how the 
+  * Filter Chain hast to work, and which patters shall
+  * be ignored and which not.
+  * This class is annotated with @Configuration and @EnableWebSecurity, 
+  * telling the JVM that it has to be evaluated
+  * on Runtime, as well as that this will configure the Spring environment 
+  * and that Spring has to enable the Security Plugin.
+  */
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    // Autowiring throws exception when changed to 
+    // constructor-based-approach
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) 
+              throws Exception {
+        auth.userDetailsService(userService);
+    }
+
+    @Override
+    public void configure(WebSecurity webSecurity) throws Exception {
+        webSecurity.ignoring().antMatchers("/pictures/**", "/styles/**",
+                "/scripts/**","/login/register",
+                "/blog_rest_api/**", "/roboData/rest_api/**");
+                // ignore theses patterns - spring security will not get triggered
+                // when trying to access one of this URIs
+    }
+
+    @Override
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests()
+                .antMatchers("/home", "/project", 
+                             "/developer", "/sponsoring")
+                    // permit all requests to this URIs
+                    .permitAll()
+                .antMatchers("/blog/**", "/user/**", "/emulator3D")
+                    .hasAnyRole("USER", "ADMIN", "OPERATOR")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN", "OPERATOR")
+                // access needs to be authorized
+        .and()
+            .formLogin().loginPage("/login")
+            .permitAll()
+            .successHandler(loginSuccessHandler())
+            .failureHandler(loginFailureHandler())
+        .and()
+            .logout()
+            .permitAll()
+            .logoutSuccessUrl("/")
+        .and()
+            .csrf();
+    }
+
+    /**
+      * Authentication Success Handler - gets called, 
+      * when login is successful
+      * @return Anonymous Interface implementation gets returned
+      */
+    public AuthenticationSuccessHandler loginSuccessHandler(){
+        return (request, response, authentication) -> {
+            // generate new token when user logs in
+            User user = (User)authentication.getPrincipal();
+            userService.generateNewTokenForUser(user);
+            response.sendRedirect("/blog");
+        };
+    }
+
+    /**
+      * Authentication Failure Handler - gets called, when 
+      * login is unsuccessful
+      * @return Anonymous Interface implementation gets returned
+      */
+    public AuthenticationFailureHandler loginFailureHandler(){
+        return ((request, response, exception) -> {
+            request.getSession().setAttribute("flash_err",
+                    new FlashMessage("Incorrect data parsed!",
+                            FlashMessage.Status.FAILURE));
+            response.sendRedirect("/login");
+        });
+    }
+
+    /**
+      * Password encoder Bean
+      * @return returns an BCryptPasswordEncoder Object with strength 10
+      */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+
+}
+  
+\end{lstlisting}
+
+\pagebreak
+
+\subsection{Emulator-Sourcecode}
+\begin{lstlisting}[caption={Emulator-Sourcecode}, captionpos=b, label={listing:emu_source},language=javascript, numbers=left,
+  stepnumber=1]
+  let scene;
+let canvas;
+let renderer;
+
+function emu3D() {
+
+    //canvas setup
+    canvas = document.querySelector('#c');
+    renderer = new THREE.WebGLRenderer({antialias: true, canvas});
+    renderer.setSize(canvas.innerWidth, canvas.innerHeight);
+
+    //scene setup
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color('#333');
+
+    //camera and controls setup
+    const fov = 45;
+    let aspect = canvas.innerWidth / canvas.innerHeight;
+    const near = 1;
+    const far = 10000;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    scene.add(camera);
+    const controls = new THREE.OrbitControls(camera, renderer.domElement)
+    controls.maxPolarAngle = degToRad(160);
+    controls.minPolarAngle = degToRad(20);
+    camera.position.set(500, 100, 200);
+    controls.update();
+
+    //lighting setup
+    const dir = new THREE.DirectionalLight(0xffffff, 1);
+    const dirm = new THREE.DirectionalLight(0xff8800, 0.5);
+    dirm.translateY(-10);
+
+    const ambient = new THREE.AmbientLight(0x404040, 2.5);
+    scene.add(dir);
+    scene.add(dirm);
+    scene.add(ambient);
+    dirm.target = dir;
+    //loader setup
+    let fbxloader = new THREE.FBXLoader();
+    let palm = scene;
+    let wrist = new THREE.Object3D()
+    const ppos = blenderToThree(new THREE.Vector3(0, 0, 0));
+
+    let frame = 0;
+    let path = '';
+
+    fbxloader.load('scripts/simulatorModels/hand_new/new_palm.fbx', async function (object) {
+
+        scene.add(wrist)
+        wrist.add(object);
+        object.position.x = -ppos.x;
+        object.position.y = -ppos.y;
+        object.position.z = -ppos.z;
+        palm = object;
+        palm.name = 'palm';
+
+        await loadFingers();
+    });
+
+    let fingers = [
+        [palm, palm, palm],
+        [palm, palm, palm],
+        [palm, palm, palm],
+        [palm, palm, palm],
+        [palm, palm, palm]
+    ];
+    /**
+     * This array is necessary in order to set proper rotation points for the imported models.
+     * The coordinates are copied from the corresponding .blend file.
+     * TODO: change this array from being hardcoded to being read from a .json file to enable the use of multiple models without code changes.
+     * @type {Vector3[][]}
+     */
+    const fpos = [ //DO NOT TOUCH!, new version
+        [
+            blenderToThree(new THREE.Vector3(3.59622, 0.353044, -0.018004)),
+            blenderToThree(new THREE.Vector3(2.90712, 0.353044, -0.000326)),
+            blenderToThree(new THREE.Vector3(1.98374, 0.355688, -0.005718))
+        ], [
+            blenderToThree(new THREE.Vector3(3.78517, -0.121099, -0.018709)),
+            blenderToThree(new THREE.Vector3(3.02742, -0.121099, 0.000276)),
+            blenderToThree(new THREE.Vector3(2.03528, -0.118192, -0.005514))
+        ], [
+            blenderToThree(new THREE.Vector3(3.55936, -0.61488, -0.018362)),
+            blenderToThree(new THREE.Vector3(2.84435, -0.61488, -0.00002)),
+            blenderToThree(new THREE.Vector3(1.90818, -0.612137, -0.005614))
+        ], [
+            blenderToThree(new THREE.Vector3(3.09757, -1.02955, -0.016404)),
+            blenderToThree(new THREE.Vector3(2.52417, -1.02955, -0.001695)),
+            blenderToThree(new THREE.Vector3(1.77339, -1.02735, -0.006181))
+        ], [
+            blenderToThree(new THREE.Vector3(1.99089, 1.39046, -0.004993)),
+            blenderToThree(new THREE.Vector3(1.38421, 1.16946, -0.004993)),
+            blenderToThree(new THREE.Vector3(0.46195, 0.78016, -0.004993))
+        ]]
+    ;
+
+    /**
+     * places a specific finger segment from the /simulatorModels folder
+     * @param object loaded object
+     * @param d digit
+     * @param s segment number
+     */
+    async function loadSegment(object, d, s) {
+        let point = new THREE.Object3D();
+        if (s < 3)
+            fingers[d - 1][s].add(point);
+        else
+            palm.add(point);
+        point.add(object)
+        fingers[d - 1][s - 1] = point;
+
+        point.position.x = fpos[d - 1][s - 1].x;
+        point.position.y = fpos[d - 1][s - 1].y;
+        point.position.z = fpos[d - 1][s - 1].z;
+        if (s < 3) {
+            point.position.x -= fpos[d - 1][s].x;
+            point.position.y -= fpos[d - 1][s].y;
+            point.position.z -= fpos[d - 1][s].z;
+        }
+    }
+
+    function loadTheFinger(resolve, reject) {
+        fbxloader.load(path, object => resolve(object));
+    }
+
+    /**
+     * loads a finger from the scripts/simulatorModels folder
+     */
+    async function loadFingers() {
+        for (let s = 3; s > 0; s--) {
+            for (let d = 1; d < 6; d++) {
+                path = 'scripts/simulatorModels/hand_new/new_simHand_id' + d + '' + s + '.fbx';
+                let object = await new Promise(loadTheFinger);
+                object.name = namePart(d, s);
+                await loadSegment(object, d, s);
+            }
+        }
+    }
+
+    /**
+     * generates a name for a loaded segment
+     * @param d digit
+     * @param s segment number
+     * @returns {string} new object name
+     */
+    function namePart(d, s) {
+        return 'digit' + d + ' segment' + s;
+    }
+
+    /**
+     * The almighty render function
+     */
+    function render() {
+        frame++;
+
+        let data;
+        try {
+            if (frame % 2 === 0) {
+                data = apply_filter_to_data(data_buffer.shift());
+                frame = 0;
+                fingers[0][2].rotation.y = degToRad(-data[4]); // if_base_rot
+                fingers[0][2].rotation.z = degToRad(-data[5]); // if_base
+                fingers[0][1].rotation.z = degToRad(-data[6]); // if_middle
+                fingers[0][0].rotation.z = degToRad(-data[7]); // if_tip
+                fingers[1][2].rotation.y = degToRad(-data[8]); // mf_base_rot
+                fingers[1][2].rotation.z = degToRad(-data[9]); // mf_base
+                fingers[1][1].rotation.z = degToRad(-data[10]); // mf_middle
+                fingers[1][0].rotation.z = degToRad(-data[11]); // mf_tip
+                fingers[2][2].rotation.y = degToRad(-data[12]); // rf_base_rot
+                fingers[2][2].rotation.z = degToRad(-data[13]); // rf_base
+                fingers[2][1].rotation.z = degToRad(-data[14]); // rf_middle
+                fingers[2][0].rotation.z = degToRad(-data[15]); // rf_tip
+                fingers[3][2].rotation.y = degToRad(-data[16]); // p_base_rot
+                fingers[3][2].rotation.z = degToRad(-data[17]); // p_base
+                fingers[3][1].rotation.z = degToRad(-data[18]); // p_middle
+                fingers[3][0].rotation.z = degToRad(-data[19]); // p_tip
+                fingers[4][2].rotation.y = degToRad(-data[0]); // th_rot_orthogonal
+                fingers[4][2].rotation.x = degToRad(-data[1]); // th_rot_palm
+                fingers[4][1].rotation.y = degToRad(-data[2]); // th_base
+                fingers[4][0].rotation.y = degToRad(-data[3]); // th_tip
+                wrist.rotation.x = degToRad(0);//-data[20]); // wr_lr
+                wrist.rotation.z = degToRad(0);//-data[21]); // wr_bf
+            }
+        } catch (e) {
+        }
+
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+        camera.updateProjectionMatrix();
+
+        requestAnimationFrame(render);
+
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    window.requestAnimationFrame(render);
+}
+
+/**
+ * converts blender coordinates to three.js coordinates
+ * @param blenderCoords Coordinates from Blender
+ * @returns {Vector3} Coordinates for three.js
+ */
+function blenderToThree(blenderCoords) {
+    let ret = new THREE.Vector3();
+    ret.x = blenderCoords.x * 100;
+    ret.y = blenderCoords.z * 100;
+    ret.z = blenderCoords.y * -100;
+    return ret;
+}
+
+/**
+ * converts rad to degrees
+ * @param rad angle in rad
+ * @returns {number} angle in degrees
+ */
+function radToDeg(rad) {
+    return rad * 180 / Math.PI;
+}
+
+/**
+ * converts degrees to rad
+ * @param deg angle in degrees
+ * @returns {number} angle in rad
+ */
+function degToRad(deg) {
+    return deg / 180 * Math.PI;
+}
+\end{lstlisting}
+
+\chapter{Gesprächsprotokoll}
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{r||p{25mm}|p{25mm}|p{45mm}}
+    \multicolumn{1}{l||}{Datum} & Anwesende Schüler      & Betreuer                      & Thema                                              \\
+    \hline
+    \hline
+    07.09.2021                  & Dominik L., Philipp M. & Spilka R.                     & Anfangsgespräch                                    \\
+    \hline
+    15.09.2021                  & Dominik L., Philipp M. & Damböck W.                    & Softwarearchitekur\newline Besprechnung            \\
+    \hline
+    16.09.2021                  & Dominik L., Philipp M. & Damböck W.                    & Spring Boot Einführung                             \\
+    \hline
+    15.10.2021                  & Dominik L., Philipp M. & Spilka R.                     & Besprechung bzgl.\newline Potentiometer            \\
+    \hline
+    29.10.2021                  & Dominik L., Philipp M. & Spilka R.,\newline Damböck W. & Erster Prototyp der Potentiometerhalterung         \\
+    \hline
+    06.12.2021                  & Dominik L., Philipp M. & Spilka R.,\newline Damböck W. & Besprechung\newline bzgl. Websocketserver          \\
+    \hline
+    23.12.2021                  & Dominik L., Philipp M. & Spilka R.                     & Präsentation des ersten Prototypen des Controllers \\
+    \hline
+    19.01.2021                  & Dominik L., Philipp M. & Spilka R.                     & Besprechung zwecks Dokumentation                   \\
+    \hline
+    07.02.2021                  & Dominik L., Philipp M. & Spilka R.                     & Richtlinien bei\newline Dokumentation              \\
+  \end{tabular}%
+  \caption{Gesprächsprotokoll}
+\end{table}%
+
+
+%%================ Abkuerzungsverzeichnis ==============%%
+\input{Textparts/abkuerzungen.tex}
+%%======================================================%%
+
+
+%%================ Abbildungsverzeichnis ===============%%
+\setcounter{lofdepth}{2}
+\dipalistoffigures
+%%======================================================%%
+
+%%================ Tabellenverzeichnis  ================%%
+\setcounter{lotdepth}{2}
+\dipalistoftables
+%%======================================================%%
+
+%%================ Listingsverzeichnis  ================%%
+\setcounter{lotdepth}{2}
+\lstlistoflistings
+%%======================================================%%
+
+%%================ Literaturverzeichnis ================%%
+\newpage
+\input{Textparts/literatur.tex}
+
+
+%%======================================================%%
+\end{document}
